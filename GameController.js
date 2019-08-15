@@ -2,28 +2,26 @@ class GameController {
 
     static Controls = class{
 
-        static keyIsDown = function(key, turban) {
-            
-            switch (key.toLowerCase()) {
-                case 'a':
-                case 'A':
-                turban.moveWest();
-                    break;
-                case 's':
-                case 'S':
-                turban.moveSouth();
-                    break;
-                case 'w':
-                case 'W':
-                turban.moveNorth();
-                    break;
-                case 'd':
-                case 'D':
-                turban.moveEast();
-                    break;
-                default:
-                    break;
-            } 
+        static keyIsDown = function(keys, turban) {
+            keys.forEach(key => {
+                switch (key) {
+                    case 'a':
+                    turban.MoveWest();
+                        break;
+                    case 's':
+                    turban.MoveSouth();
+                        break;
+                    case 'w':
+                    turban.MoveNorth();
+                        break;
+                    case 'd':
+                    turban.MoveEast();
+                        break;
+                    default:
+                        break;
+                } 
+            });
+ 
         }
         
     }
@@ -78,55 +76,72 @@ class GameController {
                     this.img = img; 
                     this.col = [250, 230, 150]; //orange farve som skifter mellem hvid og range når en bombe bliver fanget eller ej. 
 
-                    //Variables
+                    //Settings
                     this.speed = speed;
+                    this.friction = 0.85;
 
+                    //Variables
+                    this.velX = 0;
+                    this.velY = 0;
 
-                    this.tegn = function () {
+                    this.Update = function () {
+                        //Draw
                         text("DEBUG HITBOX", this.x, this.y);
                         rect(this.x, this.y, this.w, this.h);
                         image(this.img, this.x, this.y, this.w, this.h);
+
+                        //Movement
+                        this.velX *= this.friction;
+                        this.x += this.velX; 
+                        this.velY *= this.friction;
+                        this.y += this.velY;
+
                     };
 
-                    this.moveNorth = function(){
-                        this.y -= this.speed;
-                        if (this.y < 0) {
+                    
+
+                    this.MoveNorth = function(){
+                        if(this.velY > -this.speed) this.velY--;
+
+                        //Collision detection
+                        if (this.y <= 0) {
                             this.y = 0;
+                            this.velY = 0;
                         }
                         ;
                     }
-                    this.moveSouth = function(){
-                        this.y += this.speed;
+                    this.MoveSouth = function(){
+                        if(this.velY < this.speed) this.velY++;
+
+                        //Collision detection
                         if (this.y > this.containerHeight - this.h) {
                             this.y = this.containerHeight - this.h;
+                            this.velY = 0;
                         }
                         ;
                     }
-                    this.moveWest = function(){
-                        this.x -= this.speed;
+                    this.MoveWest = function(){
+                        if (this.velX > -this.speed) this.velX--;
+
+                        //Collision detection
                         if (this.x < 0) {
                             this.x = 0;
+                            this.velX = 0;
                         }
                         ;
                     }
-                    this.moveEast = function(){
-                        this.x += this.speed;
+                    this.MoveEast = function(){
+                        if (this.velX < this.speed) this.velX++;
+
+                        //Collision detection
                         if (this.x > this.containerWidth - this.w) {
                             this.x = this.containerWidth - this.w;
+                            this.velX = 0;
                         }
                         ;
                     }
 
-                    this.grebet = function (xa, ya, ra) {
-                        if ((ya < this.y + ra && ya > this.y - ra)
-                            &&
-                            xa > this.x + ra && xa < this.x + this.w - ra) {
-                            return true;
-                        }
-                        else {
-                            return false;
-                        }
-                    };
+
                 }
             };
             static Circle = class {
@@ -151,7 +166,7 @@ class GameController {
             };
         };
         static UpdateAll = function () {
-            turban.tegn();
+            turban.Update();
             for (let index = 0; index < balls.length; index++) {
                 //Mechanics
                 balls[index].show();
