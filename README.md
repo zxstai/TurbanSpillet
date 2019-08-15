@@ -1,2 +1,6 @@
 # p5-appelsiner-i-turbanen
-Brush-up forløb af p5- og programmeringskompetencer ved starten af et nyt år med Digital Teknik
+Et overraskende oplevelse for hele familien.
+
+Udviklet af M. Hansen & Hampus.
+
+Prøv https://zxstai.github.io/TurbanSpillet/
