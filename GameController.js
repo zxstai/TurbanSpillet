@@ -44,6 +44,7 @@ class GameController {
                     this.show = function () {
                         //Draw
                         fill(255);
+                        ellipseMode(CENTER)
                         ellipse(this.x, this.y, this.rad, this.rad);
                     };
                     this.update = function () {
@@ -87,6 +88,7 @@ class GameController {
                     this.Update = function () {
                         //Draw
                         text("DEBUG HITBOX", this.x, this.y);
+                        rectMode(CORNER);
                         rect(this.x, this.y, this.w, this.h);
                         image(this.img, this.x, this.y, this.w, this.h);
 
@@ -178,7 +180,7 @@ class GameController {
                     balls.push(GameController.Objects.NewBall());
                 }
                 //If ball collides with turban
-                if (GameController.Objects.RectRectColliding(new GameController.Objects.Types.Rect(balls[index].x, balls[index].y, balls[index].rad, balls[index].rad), new GameController.Objects.Types.Rect(turban.x, turban.y, turban.dyb, turban.bred))) {
+                if (collideRectCircle(turban.x, turban.y, turban.w, turban.h, balls[index].x, balls[index].y, balls[index].rad)) {
                     GameController.Ui.Draw.CreateSpriteAnimation(balls[index].x, balls[index].y, "explosion", explosionAnimation);
                     GameController.Ui.Values.IncrementScore();
                     //Remove and create new ball --- REPLACE WITH DEATH EVENT
@@ -197,49 +199,7 @@ class GameController {
             else
                 return false;
         };
-        static RectRectColliding = function (rect1, rect2) {
-            if (rect1.x <= rect2.x + rect2.width &&
-                rect1.x + rect1.width >= rect2.x &&
-                rect1.y <= rect2.y + rect2.height &&
-                rect1.y + rect1.height >= rect2.y)
-                return true;
-            else
-                return false;
-        };
-        static CircleCircleColliding = function (circle1, circle2) {
-            var dx = circle1.x - circle2.x;
-            var dy = circle1.y - circle2.y;
-            var distance = Math.sqrt(dx * dx + dy * dy);
-            if (distance < circle1.rad + circle2.rad)
-                return true;
-            else
-                return false;
-        };
-        static RectCircleColliding2 = function (circle, rect) {
-            var DeltaX = circle.x - max(rect.x, min(circle.x, rect.x + rect.w));
-            var DeltaY = circle.y - max(rect.y, min(circle.y, rect.y + rect.h));
-            return (DeltaX * DeltaX + DeltaY * DeltaY) < (circle.rad * circle.rad);
-        };
-        // return true if the rectangle and circle are colliding
-        static RectCircleColliding = function (circle, rect) {
-            var distX = Math.abs(circle.x - rect.x - rect.w / 2);
-            var distY = Math.abs(circle.y - rect.y - rect.h / 2);
-            if (distX > (rect.w / 2 + circle.r)) {
-                return false;
-            }
-            if (distY > (rect.h / 2 + circle.r)) {
-                return false;
-            }
-            if (distX <= (rect.w / 2)) {
-                return true;
-            }
-            if (distY <= (rect.h / 2)) {
-                return true;
-            }
-            var dx = distX - rect.w / 2;
-            var dy = distY - rect.h / 2;
-            return (dx * dx + dy * dy <= (circle.r * circle.r));
-        };
+        
     };
     static Ui = class {
         static Objects = class {
