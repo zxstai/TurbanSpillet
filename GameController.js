@@ -6,19 +6,15 @@ class GameController {
             
             switch (key.toLowerCase()) {
                 case 'a':
-                case 'A':
                 turban.moveWest();
                     break;
                 case 's':
-                case 'S':
                 turban.moveSouth();
                     break;
                 case 'w':
-                case 'W':
                 turban.moveNorth();
                     break;
                 case 'd':
-                case 'D':
                 turban.moveEast();
                     break;
                 default:
