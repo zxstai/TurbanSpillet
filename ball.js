@@ -1,10 +1,10 @@
 
 class Ball {
-    constructor(y, speedY, speedX ){
+    constructor(x, y, rad, speedY, speedX ){
         //Ball dimensions
         this.y = y;
-        this.rad = 32;
-        this.x = this.rad+200   ;
+        this.rad = rad;
+        this.x = x;
 
         //Static modifiers
         this.gravity = 1;

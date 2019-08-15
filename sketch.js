@@ -43,7 +43,7 @@ function setup() {
     newspeed = yspeed;
     x = rad;
     turban = new Kurv(670, 100, 70, 50, 20);
-    balls = [GameController.GameObjects.NewBall()];
+    balls = [GameController.Objects.Presets.NewBall()];
 
     explosionAnimation.frameDelay = 10;
 
@@ -52,19 +52,16 @@ function setup() {
 
 function draw() {
     background(0);
-    GameController.GameObjects.UpdateAll();
-    GameController.UiObjects.UpdateAll();
+    GameController.Objects.UpdateAll();
+    GameController.Ui.UpdateAll();
 
 
 }
 
 class GameController {
+    static Objects = class {
 
-
-
-    static GameObjects = class {
-
-        static ObjectTypes = class {
+        static Types = class {
             static Circle = class {
                 constructor(xPoint, yPoint, radius) {
                     this.x = xPoint;
@@ -83,7 +80,17 @@ class GameController {
                 }
             }
         }
-
+        static Presets = class {
+            static NewBall = function () {
+                return new Ball(
+                    232,
+                    Math.round(Math.random() * 100) + 400,
+                    32,
+                    0,
+                    0 * Math.random(),
+                );
+            }
+        }
 
         static UpdateAll = function () {
             turban.tegn();
@@ -94,25 +101,24 @@ class GameController {
                 balls[index].update();
 
                 //Out of bounds detection
-                if (GameController.GameObjects.IsOutOfBounds(balls[index])) {
+                if (GameController.Objects.IsOutOfBounds(balls[index])) {
                     //Remove and create new ball --- REPLACE WITH DEATH EVENT
                     balls = balls.splice(index - 1, index);
-                    balls.push(GameController.GameObjects.NewBall());
+                    balls.push(GameController.Objects.NewBall());
                 }
 
                 //If ball collides with turban
-                if (GameController.GameObjects.RectRectColliding(
-                        new GameController.GameObjects.ObjectTypes.Rect(balls[index].x, balls[index].y, balls[index].rad,balls[index].rad),
-                        new GameController.GameObjects.ObjectTypes.Rect(turban.x, turban.y, turban.dyb, turban.bred))) {
-                    //f(false){
+                if (GameController.Objects.RectRectColliding(
+                        new GameController.Objects.Types.Rect(balls[index].x, balls[index].y, balls[index].rad,balls[index].rad),
+                        new GameController.Objects.Types.Rect(turban.x, turban.y, turban.dyb, turban.bred))) {
 
-                    GameController.UiObjects.Draw.CreateSpriteAnimation(balls[index].x, balls[index].y, "explosion", explosionAnimation);
+                    GameController.Ui.Draw.CreateSpriteAnimation(balls[index].x, balls[index].y, "explosion", explosionAnimation);
 
-                    GameController.UiObjects.Values.IncrementScore();
+                    GameController.Ui.Values.IncrementScore();
 
                     //Remove and create new ball --- REPLACE WITH DEATH EVENT
                     balls = balls.splice(index - 1, index);
-                    balls.push(GameController.GameObjects.NewBall());
+                    balls.push(GameController.Objects.Presets.NewBall());
                 }
 
 
@@ -133,22 +139,13 @@ class GameController {
                 return false;
         }
 
-
-        static NewBall = function () {
-            return new Ball(
-                Math.round(Math.random() * 100) + 400,
-                0,
-                0 * Math.random(),
-            );
-        }
-
         static RectRectColliding = function (rect1, rect2) {
 
 
-            if (rect1.x < rect2.x + rect2.width &&
-                rect1.x + rect1.width > rect2.x &&
-                rect1.y < rect2.y + rect2.height &&
-                rect1.y + rect1.height > rect2.y) 
+            if (rect1.x <= rect2.x + rect2.width &&
+                rect1.x + rect1.width >= rect2.x &&
+                rect1.y <= rect2.y + rect2.height &&
+                rect1.y + rect1.height >= rect2.y) 
                 return true;
             else 
                 return false;
@@ -200,11 +197,11 @@ class GameController {
 
     }
 
-    static UiObjects = class {
+    static Ui = class {
 
         static UpdateAll = function () {
             //Score counter
-            GameController.UiObjects.Draw.ScoreCounter();
+            GameController.Ui.Draw.ScoreCounter();
 
         }
 
@@ -218,7 +215,7 @@ class GameController {
             static CreateSpriteAnimation = function (x, y, explosionName, animationVariable, timeout) {
                 explosionSprite = createSprite(x, y); //laver en sprite animation af en bombe
                 explosionSprite.addAnimation(explosionName, animationVariable) //starter animation på 2 frames med et framerate på 10 sekunder
-                setTimeout(GameController.UiObjects.Draw.ClearAnimation(explosionSprite), timeout); //fjerner animationen efter 1.25 sekunder (passer til når en ny bombe kommer)
+                setTimeout(GameController.Ui.Draw.ClearAnimation(explosionSprite), timeout); //fjerner animationen efter 1.25 sekunder (passer til når en ny bombe kommer)
 
             }
 
