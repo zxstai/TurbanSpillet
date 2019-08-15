@@ -18,8 +18,8 @@ function Kurv(x, y, bredde, dybde, speed) {
 
     this.tegn = function() { //det her tegner ting der er relevant til "turbanen". I mit tilfælde er det en kurv med en debug firkant til at vise hitbox. 
         text("DEBUG HITBOX", this.x, this.y);
-        rect(this.x, this.y, 100, 100);
-        image(this.img, this.x, this.y, 100, 100);
+        rect(this.x, this.y, this.bred, this.dyb);
+        image(this.img, this.x, this.y, this.bred, this.dyb);
     }
 
     this.move = function(tast) { //det her er movement control i spillet.

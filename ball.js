@@ -1,10 +1,10 @@
 
 class Ball {
-    constructor() {
+    constructor(y, speedY, speedX ){
         //Ball dimensions
-        this.y = height / 2;
-        this.x = width / 2;
+        this.y = y;
         this.rad = 32;
+        this.x = this.rad+200   ;
 
         //Static modifiers
         this.gravity = 1;
@@ -12,8 +12,8 @@ class Ball {
         this.lift = 15;
 
         //Variables
-        this.speedY = 0;
-        this.speedX = 0;
+        this.speedY = speedY;
+        this.speedX = speedX;
 
 
         this.show = function () {
