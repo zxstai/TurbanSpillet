@@ -1,4 +1,33 @@
 class GameController {
+
+    static Controls = class{
+
+        static keyIsDown = function(key, turban) {
+            
+            switch (key.toLowerCase()) {
+                case 'a':
+                case 'A':
+                turban.moveWest();
+                    break;
+                case 's':
+                case 'S':
+                turban.moveSouth();
+                    break;
+                case 'w':
+                case 'W':
+                turban.moveNorth();
+                    break;
+                case 'd':
+                case 'D':
+                turban.moveEast();
+                    break;
+                default:
+                    break;
+            } 
+        }
+        
+    }
+
     static Objects = class {
         static Types = class {
             static Ball = class {
@@ -35,53 +64,63 @@ class GameController {
                 }
             };            
             static Kurv = class {
-                constructor(x, y, bredde, dybde, speed, img) {
-                    this.img = loadImage("assets/net.png"); //med brug af P5.js definiere jeg et billede som jeg kan kalde senere med brug af "this.img"
-                    this.x = x;
-                    this.y = y;
-                    this.bred = bredde;
-                    this.dyb = dybde;
-                    this.speed = speed;
+                constructor(xPoint, yPoint, width, height, speed, img, containerHeight, containerWidth) {
+
+                    //Dimensions
+                    this.x = xPoint;
+                    this.y = yPoint;
+                    this.w = width;
+                    this.h = height;
+                    this.containerWidth = containerWidth;
+                    this.containerHeight = containerHeight
+
+                    //Style
+                    this.img = img; 
                     this.col = [250, 230, 150]; //orange farve som skifter mellem hvid og range når en bombe bliver fanget eller ej. 
+
+                    //Variables
+                    this.speed = speed;
+
+
                     this.tegn = function () {
                         text("DEBUG HITBOX", this.x, this.y);
-                        rect(this.x, this.y, this.bred, this.dyb);
-                        image(this.img, this.x, this.y, this.bred, this.dyb);
+                        rect(this.x, this.y, this.w, this.h);
+                        image(this.img, this.x, this.y, this.w, this.h);
                     };
-                    this.move = function (tast) {
-                        if (tast == 'w' || tast == 'W') {
-                            this.y -= this.speed;
-                            if (this.y < 0) {
-                                this.y = 0;
-                            }
-                            ;
+
+                    this.moveNorth = function(){
+                        this.y -= this.speed;
+                        if (this.y < 0) {
+                            this.y = 0;
                         }
-                        if (tast == 's' || tast == 'S') {
-                            this.y += this.speed;
-                            if (this.y > height - this.dyb) {
-                                this.y = height - this.dyb;
-                            }
-                            ;
+                        ;
+                    }
+                    this.moveSouth = function(){
+                        this.y += this.speed;
+                        if (this.y > this.containerHeight - this.h) {
+                            this.y = this.containerHeight - this.h;
                         }
-                        if (tast == 'a' || tast == 'A') {
-                            this.x -= this.speed;
-                            if (this.x < 0) {
-                                this.x = 0;
-                            }
-                            ;
+                        ;
+                    }
+                    this.moveWest = function(){
+                        this.x -= this.speed;
+                        if (this.x < 0) {
+                            this.x = 0;
                         }
-                        if (tast == 'd' || tast == 'D') {
-                            this.x += this.speed;
-                            if (this.x > width - this.bred) {
-                                this.x = width - this.bred;
-                            }
-                            ;
+                        ;
+                    }
+                    this.moveEast = function(){
+                        this.x += this.speed;
+                        if (this.x > this.containerWidth - this.w) {
+                            this.x = this.containerWidth - this.w;
                         }
-                    };
+                        ;
+                    }
+
                     this.grebet = function (xa, ya, ra) {
                         if ((ya < this.y + ra && ya > this.y - ra)
                             &&
-                            xa > this.x + ra && xa < this.x + this.bred - ra) {
+                            xa > this.x + ra && xa < this.x + this.w - ra) {
                             return true;
                         }
                         else {
@@ -108,7 +147,7 @@ class GameController {
         };
         static Presets = class {
             static NewBall = function () {
-                return new Ball(232, Math.round(Math.random() * 100) + 400, 32, 0, 0 * Math.random());
+                return new GameController.Objects.Types.Ball(232, Math.round(Math.random() * 100) + 400, 32, 0, 0 * Math.random());
             };
         };
         static UpdateAll = function () {
