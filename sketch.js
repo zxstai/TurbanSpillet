@@ -3,22 +3,16 @@ Først laver vi et nogle variable til at lave en appelsin
  - en kugle som vi vil skyde afsted og fange i en turban
 */
 
-// Appelsinen
-var x = 0;
-var y = 550;
-var rad = 20;
-var xspeed = 4;
-var yspeed = -10;
-var newspeed;
-var grav = 0.12;
-var col = [200, 100, 0];
+
+
+
+// Objects
+var turban;
+var balls;
 let bomb;
 var explosionAnimation
 var explosionSprite
 
-// Turbanen
-var turban;
-var balls;
 
 // Øvrige
 var tid = 50;
@@ -37,15 +31,13 @@ function preload() {
 function setup() {
     //General setup
     createCanvas(750, 600);
+    explosionAnimation.frameDelay = 10;
 
 
     //Object creation
-    newspeed = yspeed;
-    x = rad;
     turban = new Kurv(670, 100, 70, 50, 20);
     balls = [GameController.Objects.Presets.NewBall()];
 
-    explosionAnimation.frameDelay = 10;
 
 }
 
@@ -199,6 +191,11 @@ class GameController {
 
     static Ui = class {
 
+        static Objects = class{
+
+
+        }
+
         static UpdateAll = function () {
             //Score counter
             GameController.Ui.Draw.ScoreCounter();
@@ -227,17 +224,6 @@ class GameController {
         static Values = class {
             static IncrementScore = function () {
                 score++;
-            }
-
-            static CheckScore = function () {
-                // Her checkes om turbanen har fanget appelsinen. Hvis ja, skydes en ny appelsin afsted
-                if (turban.grebet(x, y, rad)) {
-                    explosionSprite = createSprite(this.x, this.y); //laver en sprite animation af en bombe
-                    explosionSprite.addAnimation("explosion", explosionAnimation) //starter animation på 2 frames med et framerate på 10 sekunder
-                    score += 1; //tilføjer 1 til score
-                    shootNew();
-
-                }
             }
         }
 
