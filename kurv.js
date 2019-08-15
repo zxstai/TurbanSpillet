@@ -37,7 +37,7 @@ function Kurv(x, y, bredde, dybde, speed) {
         }
         if (tast == 'd' || tast == 'D') {
             this.x += this.speed;
-            if (this.x > width-this.dyb) {this.x = width - this.dyb};
+            if (this.x > width-this.bred) {this.x = width - this.bred};
         }
         
     }

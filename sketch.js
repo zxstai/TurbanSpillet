@@ -10,9 +10,11 @@ var rad = 20;
 var xspeed = 4;
 var yspeed = -10;
 var newspeed;
-var grav = 0.1;
+var grav = 0.12;
 var col = [200,100,0];
-let gif;
+let bomb;
+var explosionAnimation
+var explosionSprite
 
 // Turbanen
 var turban;
@@ -30,14 +32,19 @@ function setup() {
     newspeed = yspeed;
     x = rad;
     turban = new Kurv(670, 100, 70, 50, 20);
-    gif = loadGif("assets/bomb.gif");
+    bomb = loadImage("assets/bomb.png"); //loader vores bombe der flyver
+    explosionAnimation = loadAnimation("assets/explosion/explosion1.png", "assets/explosion/explosion2.png"); //
+    explosionAnimation.frameDelay = 10;
+
 }
+
 
 function draw() {
     background(0);
     move();
     checkScore();
     display();
+    drawSprites();
 }
 
 function display() {
@@ -51,7 +58,7 @@ function display() {
     }
     if (tid < 100) {
         fill(col);
-        loadGif(gif, 0,0);
+        image(bomb, this.x, this.y, 100, 100);
     }
 
 
@@ -72,12 +79,19 @@ function move() {
         shootNew();
     }
 }
+function clearanimation() {
+    explosionSprite.remove(); //stopper explosion sprite animationen
+}
 
 function checkScore() {
     // Her checkes om turbanen har fanget appelsinen. Hvis ja, skydes en ny appelsin afsted
         if (turban.grebet(x, y, rad)) {
-            score += 1;
-            shootNew(); 
+            explosionSprite = createSprite(this.x, this.y); //laver en sprite animation af en bombe
+            explosionSprite.addAnimation("explosion", explosionAnimation) //starter animation på 2 frames med et framerate på 10 sekunder
+            score += 1; //tilføjer 1 til score
+            shootNew();
+            setTimeout(clearanimation, 1250); //fjerner animationen efter 1.25 sekunder (passer til når en ny bombe kommer)
+
         }
     }
     
