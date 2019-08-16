@@ -1,7 +1,5 @@
-/*
-Først laver vi et nogle variable til at lave en appelsin
- - en kugle som vi vil skyde afsted og fange i en turban
-*/
+
+//#region VARIABLES
 
 // Objects
 var turban;
@@ -11,12 +9,18 @@ let bomb;
 var explosionAnimation
 var explosionSprite
 
+//Controls
+var activeKeys = [];
+
 
 // Øvrige
 var tid = 50;
 var score = 0;
 var miss = 0;
 
+//#endregion VARIABLES
+
+//#region SETUP
 function preload() {
     turbanImg = loadImage("assets/net.png");
     bomb = loadImage("assets/bomb.png"); //loader vores bombe der flyver
@@ -35,16 +39,51 @@ function setup() {
 
 
 }
+//#endregion SETUP
 
 
+
+
+//#region LOOP
 function draw() {
     background(0);
+    checkKeys();
 
-    if(keyIsPressed)
-    GameController.Controls.keyIsDown(key, turban);
+
+    
 
     GameController.Objects.UpdateAll();
     GameController.Ui.UpdateAll();
 
-
 }
+
+function checkKeys(){
+    if(activeKeys.length > 0){
+        if(keyIsPressed)
+            GameController.Controls.keyIsDown(activeKeys, turban);
+        else
+            activeKeys = [];
+    }
+}
+
+//#endregion LOOP
+
+
+
+
+
+//#region  EVENTS
+onkeydown = function(e){
+    e = e || event; 
+    if(!activeKeys.includes(e.key.toLowerCase()))
+    activeKeys.push(e.key.toLowerCase());
+}
+onkeyup = function(e){
+    e = e || event;
+    for (let index = 0; index < activeKeys.length; index++) {
+        if(e.key == activeKeys[0].toLowerCase())
+        activeKeys.splice([index], 1);
+    }
+}
+
+//#endregion EVENTS
