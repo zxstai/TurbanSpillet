@@ -35,7 +35,7 @@ function setup() {
 
     //Object creation
     balls = [GameController.Objects.Presets.NewBall()];
-    turban = new GameController.Objects.Types.Kurv(670, 100, 70, 50, 20, turbanImg, height, width, explosionAnim);
+    turban = new GameController.Objects.Types.Kurv(670, 100, turbanImg.width/2, turbanImg.height/2, 20, turbanImg, height, width, explosionAnim);
 
 
 }

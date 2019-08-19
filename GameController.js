@@ -98,7 +98,7 @@ class GameController {
                     this.Update = function () {
                         //Draw
                         rectMode(CORNER);
-                        rect(this.x, this.y, this.w, this.h);
+                        //rect(this.x, this.y, this.w, this.h);
                         image(this.img, this.x, this.y, this.w, this.h);
 
 
