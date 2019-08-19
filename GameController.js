@@ -1,29 +1,29 @@
 class GameController {
 
-    static Controls = class{
+    static Controls = class {
 
-        static keyIsDown = function(keys, turban) {
+        static keyIsDown = function (keys, turban) {
             keys.forEach(key => {
                 switch (key) {
                     case 'a':
-                    turban.MoveWest();
+                        turban.MoveWest();
                         break;
                     case 's':
-                    turban.MoveSouth();
+                        turban.MoveSouth();
                         break;
                     case 'w':
-                    turban.MoveNorth();
+                        turban.MoveNorth();
                         break;
                     case 'd':
-                    turban.MoveEast();
+                        turban.MoveEast();
                         break;
                     default:
                         break;
-                } 
+                }
             });
- 
+
         }
-        
+
     }
 
     static Objects = class {
@@ -61,7 +61,7 @@ class GameController {
                         }
                     };
                 }
-            };            
+            };
             static Kurv = class {
                 constructor(xPoint, yPoint, width, height, speed, img, containerHeight, containerWidth, bombAnimation) {
 
@@ -74,23 +74,24 @@ class GameController {
                     this.containerHeight = containerHeight
 
                     //Style
-                    this.img = img; 
+                    this.img = img;
                     this.col = [250, 230, 150]; //orange farve som skifter mellem hvid og range når en bombe bliver fanget eller ej.
                     this.bombAnima = bombAnimation;
 
-                    
+
                     //Settings
                     this.speed = speed;
                     this.friction = 0.85;
                     this.animationPlayLength = 500;
+                    this.animationLabel = "explosion";
 
                     //Variables
                     this.velX = 0;
                     this.velY = 0;
                     this.hitStatus = false;
-                    this.bombSprite;
+                    this.bombSprites = [];
 
-         
+
 
                     this.Update = function () {
                         //Draw
@@ -101,63 +102,74 @@ class GameController {
 
                         //Movement
                         this.velX *= this.friction;
-                        this.x += this.velX; 
+                        this.x += this.velX;
                         this.velY *= this.friction;
                         this.y += this.velY;
 
 
-                        if(this.hitStatus){
+                        if (this.hitStatus) {
 
+                            //Reset status
                             this.hitStatus = false;
 
-                            this.bombSprite = createSprite(this.x, this.y);
-                            this.bombSprite.addAnimation("explosion", this.bombAnima) //starter animation på 2 frames med et framerate på 10 sekunder
+                            //Create sprite
+                            var newSprite = createSprite(this.x, this.y).addAnimation(this.animationLabel, this.bombAnima);
+                            if (this.bombSprites.length == 0)
+                                this.bombSprites = [newSprite];
+                            else
+                                this.bombSprites.push(newSprite); //starter animation på 2 frames med et framerate på 10 sekunder
 
-                           setTimeout(function(){ turban.bombSprite.remove();}, this.animationPlayLength);
+
+                            //Remove sprite
+                            setTimeout(function () {
+                                for (let index = 0; index < allSprites.length; index++) {
+                                    if (this.animationLabel = allSprites[index].getAnimationLabel()) {
+                                        allSprites[index].remove();
+                                        break;
+                                    }
+                                }
+                            }, this.animationPlayLength);
                         }
 
                     };
 
-                
-                    this.MoveNorth = function(){
-                        if(this.velY > -this.speed) this.velY--;
+
+                    this.MoveNorth = function () {
+
+                        if (this.velY > -this.speed) this.velY--;
 
                         //Collision detection
                         if (this.y <= 0) {
                             this.y = 0;
                             this.velY = 0;
-                        }
-                        ;
+                        };
                     }
-                    this.MoveSouth = function(){
-                        if(this.velY < this.speed) this.velY++;
+                    this.MoveSouth = function () {
+                        if (this.velY < this.speed) this.velY++;
 
                         //Collision detection
                         if (this.y > this.containerHeight - this.h) {
                             this.y = this.containerHeight - this.h;
                             this.velY = 0;
-                        }
-                        ;
+                        };
                     }
-                    this.MoveWest = function(){
+                    this.MoveWest = function () {
                         if (this.velX > -this.speed) this.velX--;
 
                         //Collision detection
                         if (this.x < 0) {
                             this.x = 0;
                             this.velX = 0;
-                        }
-                        ;
+                        };
                     }
-                    this.MoveEast = function(){
+                    this.MoveEast = function () {
                         if (this.velX < this.speed) this.velX++;
 
                         //Collision detection
                         if (this.x > this.containerWidth - this.w) {
                             this.x = this.containerWidth - this.w;
                             this.velX = 0;
-                        }
-                        ;
+                        };
                     }
 
 
@@ -215,11 +227,10 @@ class GameController {
             else
                 return false;
         };
-        
+
     };
     static Ui = class {
-        static Objects = class {
-        };
+        static Objects = class {};
         static UpdateAll = function () {
             //Score counter
             GameController.Ui.Draw.ScoreCounter();
@@ -231,8 +242,8 @@ class GameController {
 
             };
             static CreateSpriteAnimation = function (x, y, explosionName, animationVariable, timeout) {
-                print(x+"lmao"+y);
-                 //laver en sprite animation af en bombe
+                print(x + "lmao" + y);
+                //laver en sprite animation af en bombe
                 explosionSprite.addAnimation("explosion", explosionAnimation); //starter animation på 2 frames med et framerate på 10 sekunder
                 setTimeout(GameController.Ui.Draw.ClearAnimation(explosionSprite), timeout); //fjerner animationen efter 1.25 sekunder (passer til når en ny bombe kommer)
             };
