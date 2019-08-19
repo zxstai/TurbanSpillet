@@ -89,6 +89,7 @@ class GameController {
                     this.velX = 0;
                     this.velY = 0;
                     this.hitStatus = false;
+                    this.hitCoords = [0, 0];
                     this.bombSprites = [];
 
 
@@ -113,7 +114,7 @@ class GameController {
                             this.hitStatus = false;
 
                             //Create sprite
-                            var newSprite = createSprite(this.x, this.y).addAnimation(this.animationLabel, this.bombAnima);
+                            var newSprite = createSprite(this.hitCoords[0], this.hitCoords[1]).addAnimation(this.animationLabel, this.bombAnima);
                             if (this.bombSprites.length == 0)
                                 this.bombSprites = [newSprite];
                             else
@@ -210,8 +211,9 @@ class GameController {
                 }
                 //If ball collides with turban
                 if (collideRectCircle(turban.x, turban.y, turban.w, turban.h, balls[index].x, balls[index].y, balls[index].rad)) {
-                    GameController.Ui.Values.IncrementScore();
                     //Remove and create new ball --- REPLACE WITH DEATH EVENT
+                    turban.hitCoords = [balls[index].x, balls[index].y];
+                    GameController.Ui.Values.IncrementScore();
                     balls = balls.splice(index - 1, index);
                     balls.push(GameController.Objects.Presets.NewBall());
                 }
