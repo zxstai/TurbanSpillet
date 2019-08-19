@@ -4,10 +4,9 @@
 // Objects
 var turban;
 var turbanImg;
+var explosionAnim;
 var balls;
-let bomb;
-var explosionAnimation
-var explosionSprite
+
 
 //Controls
 var activeKeys = [];
@@ -24,18 +23,20 @@ var miss = 0;
 function preload() {
     turbanImg = loadImage("assets/net.png");
     bomb = loadImage("assets/bomb.png"); //loader vores bombe der flyver
-    explosionAnimation = loadAnimation("assets/explosion/explosion1.png", "assets/explosion/explosion2.png");
+    explosionAnim = loadAnimation("assets/explosion/explosion1.png", "assets/explosion/explosion2.png");
+    explosionAnim.frameDelay = 10;
+
+    //Object creation
 }
 
 function setup() {
     //General setup
-    createCanvas(750, 600);
-    explosionAnimation.frameDelay = 10;
+    createCanvas(windowWidth, windowHeight);
 
 
     //Object creation
-    turban = new GameController.Objects.Types.Kurv(670, 100, 70, 50, 20, turbanImg, height, width);
     balls = [GameController.Objects.Presets.NewBall()];
+    turban = new GameController.Objects.Types.Kurv(670, 100, 70, 50, 20, turbanImg, height, width, explosionAnim);
 
 
 }
@@ -47,14 +48,12 @@ function setup() {
 //#region LOOP
 function draw() {
     background(0);
+    drawSprites();
+
     checkKeys();
 
-
-    
-
-    GameController.Objects.UpdateAll();
+    GameController.Objects.UpdateAll(turban, balls);
     GameController.Ui.UpdateAll();
-
 }
 
 function checkKeys(){
@@ -81,7 +80,7 @@ onkeydown = function(e){
 onkeyup = function(e){
     e = e || event;
     for (let index = 0; index < activeKeys.length; index++) {
-        if(e.key == activeKeys[0].toLowerCase())
+        if(e.key == activeKeys[index].toLowerCase())
         activeKeys.splice([index], 1);
     }
 }

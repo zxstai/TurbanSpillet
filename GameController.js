@@ -63,7 +63,7 @@ class GameController {
                 }
             };            
             static Kurv = class {
-                constructor(xPoint, yPoint, width, height, speed, img, containerHeight, containerWidth) {
+                constructor(xPoint, yPoint, width, height, speed, img, containerHeight, containerWidth, bombAnimation) {
 
                     //Dimensions
                     this.x = xPoint;
@@ -75,8 +75,10 @@ class GameController {
 
                     //Style
                     this.img = img; 
-                    this.col = [250, 230, 150]; //orange farve som skifter mellem hvid og range når en bombe bliver fanget eller ej. 
+                    this.col = [250, 230, 150]; //orange farve som skifter mellem hvid og range når en bombe bliver fanget eller ej.
+                    this.bombAnima = bombAnimation;
 
+                    
                     //Settings
                     this.speed = speed;
                     this.friction = 0.85;
@@ -84,6 +86,10 @@ class GameController {
                     //Variables
                     this.velX = 0;
                     this.velY = 0;
+                    this.hitStatus = false;
+                    this.bombSprite;
+
+         
 
                     this.Update = function () {
                         //Draw
@@ -92,16 +98,27 @@ class GameController {
                         rect(this.x, this.y, this.w, this.h);
                         image(this.img, this.x, this.y, this.w, this.h);
 
+
                         //Movement
                         this.velX *= this.friction;
                         this.x += this.velX; 
                         this.velY *= this.friction;
                         this.y += this.velY;
 
+
+                        if(this.hitStatus){
+
+                            this.hitStatus = false;
+
+                            this.bombSprite = createSprite(this.x, this.y);
+                            this.bombSprite.addAnimation("explosion", this.bombAnima) //starter animation på 2 frames med et framerate på 10 sekunder
+
+                           setTimeout(function(){ turban.bombSprite.remove();}, 500);
+                        }
+
                     };
 
-                    
-
+                
                     this.MoveNorth = function(){
                         if(this.velY > -this.speed) this.velY--;
 
@@ -181,7 +198,6 @@ class GameController {
                 }
                 //If ball collides with turban
                 if (collideRectCircle(turban.x, turban.y, turban.w, turban.h, balls[index].x, balls[index].y, balls[index].rad)) {
-                    GameController.Ui.Draw.CreateSpriteAnimation(balls[index].x, balls[index].y, "explosion", explosionAnimation);
                     GameController.Ui.Values.IncrementScore();
                     //Remove and create new ball --- REPLACE WITH DEATH EVENT
                     balls = balls.splice(index - 1, index);
@@ -212,10 +228,12 @@ class GameController {
             static ScoreCounter = function () {
                 fill(255);
                 text("Score: " + score, width - 80, 30);
+
             };
             static CreateSpriteAnimation = function (x, y, explosionName, animationVariable, timeout) {
-                explosionSprite = createSprite(x, y); //laver en sprite animation af en bombe
-                explosionSprite.addAnimation(explosionName, animationVariable); //starter animation på 2 frames med et framerate på 10 sekunder
+                print(x+"lmao"+y);
+                 //laver en sprite animation af en bombe
+                explosionSprite.addAnimation("explosion", explosionAnimation); //starter animation på 2 frames med et framerate på 10 sekunder
                 setTimeout(GameController.Ui.Draw.ClearAnimation(explosionSprite), timeout); //fjerner animationen efter 1.25 sekunder (passer til når en ny bombe kommer)
             };
             static ClearAnimation = function (animation) {
@@ -225,6 +243,8 @@ class GameController {
         static Values = class {
             static IncrementScore = function () {
                 score++;
+                turban.hitStatus = true;
+
             };
         };
     };
