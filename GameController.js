@@ -82,6 +82,7 @@ class GameController {
                     //Settings
                     this.speed = speed;
                     this.friction = 0.85;
+                    this.animationPlayLength = 500;
 
                     //Variables
                     this.velX = 0;
@@ -93,7 +94,6 @@ class GameController {
 
                     this.Update = function () {
                         //Draw
-                        text("DEBUG HITBOX", this.x, this.y);
                         rectMode(CORNER);
                         rect(this.x, this.y, this.w, this.h);
                         image(this.img, this.x, this.y, this.w, this.h);
@@ -113,7 +113,7 @@ class GameController {
                             this.bombSprite = createSprite(this.x, this.y);
                             this.bombSprite.addAnimation("explosion", this.bombAnima) //starter animation på 2 frames med et framerate på 10 sekunder
 
-                           setTimeout(function(){ turban.bombSprite.remove();}, 500);
+                           setTimeout(function(){ turban.bombSprite.remove();}, this.animationPlayLength);
                         }
 
                     };
