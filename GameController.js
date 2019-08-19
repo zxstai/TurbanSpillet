@@ -215,7 +215,11 @@ class GameController {
                     turban.hitCoords = [balls[index].x, balls[index].y];
                     GameController.Ui.Values.IncrementScore();
                     balls = balls.splice(index - 1, index);
-                    balls.push(GameController.Objects.Presets.NewBall());
+                        //Create new ball
+                    setTimeout(function () {
+                        balls.push(GameController.Objects.Presets.NewBall());
+                    }, 750);
+                    
                 }
             }
         };
