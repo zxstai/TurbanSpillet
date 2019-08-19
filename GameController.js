@@ -37,10 +37,11 @@ class GameController {
                     //Static modifiers
                     this.gravity = 1;
                     this.friction = .95;
-                    this.lift = 15;
+
                     //Variables
                     this.speedY = speedY;
                     this.speedX = speedX;
+                    
                     this.show = function () {
                         //Draw
                         fill(255);
@@ -176,21 +177,6 @@ class GameController {
 
                 }
             };
-            static Circle = class {
-                constructor(xPoint, yPoint, radius) {
-                    this.x = xPoint;
-                    this.y = yPoint;
-                    this.rad = radius;
-                }
-            };
-            static Rect = class {
-                constructor(xPoint, yPoint, height, width) {
-                    this.x = xPoint;
-                    this.y = yPoint;
-                    this.h = height;
-                    this.w = width;
-                }
-            };
         };
         static Presets = class {
             static NewBall = function () {
@@ -246,15 +232,6 @@ class GameController {
                 fill(255);
                 text("Score: " + score, width - 80, 30);
 
-            };
-            static CreateSpriteAnimation = function (x, y, explosionName, animationVariable, timeout) {
-                print(x + "lmao" + y);
-                //laver en sprite animation af en bombe
-                explosionSprite.addAnimation("explosion", explosionAnimation); //starter animation på 2 frames med et framerate på 10 sekunder
-                setTimeout(GameController.Ui.Draw.ClearAnimation(explosionSprite), timeout); //fjerner animationen efter 1.25 sekunder (passer til når en ny bombe kommer)
-            };
-            static ClearAnimation = function (animation) {
-                animation.remove(); //stopper en animation
             };
         };
         static Values = class {

@@ -13,7 +13,6 @@ var activeKeys = [];
 
 
 // Øvrige
-var tid = 50;
 var score = 0;
 var miss = 0;
 
