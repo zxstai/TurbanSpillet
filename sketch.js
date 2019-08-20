@@ -47,11 +47,11 @@ function setup() {
 //#region LOOP
 function draw() {
     background(0);
-    drawSprites();
 
     checkKeys();
 
     GameController.Objects.UpdateAll(turban, balls);
+    drawSprites();
     GameController.Ui.UpdateAll();
 }
 
