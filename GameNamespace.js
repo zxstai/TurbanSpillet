@@ -1,10 +1,13 @@
 /**
  * Namespace containing functions and methods used by the game
- * @namespace GameController
+ * @namespace GameNamespace
  */
-const GameController = {
+const GameNamespace = {
     /**
      * Functions related to game controls
+     *  @memberof GameNamespace
+     *  @namespace GameNamespace.Controls
+     * 
      */
     Controls: {
 
@@ -12,7 +15,8 @@ const GameController = {
          * Calls methods depedent on incoming keystrokes
          *
          * @param {Array} keys String array of actively pressed keys
-         * @param {GameController.Objects.Type.Kurv} turban Active basket/turban object
+         * @param {GameNamespace.Objects.Type.Kurv} turban Active basket/turban object
+         * @memberof GameNamespace.Controls
          */
         ActOnPressedKeys: function (keys, turban) { //If the key is pressed down, then move.
             keys.forEach(key => { //Checking that if both A & W is pressed down, it will move west and north at the same time.
@@ -39,12 +43,19 @@ const GameController = {
     },
     /**
      *  Functions and objects related to the playable parts of the game
+     *  @memberof GameNamespace
+     *  @namespace GameNamespace.Objects
      */
     Objects: {
         /**
          * Instantiable game objects
-         */
+     *  @memberof GameNamespace.Objects
+     *  @namespace GameNamespace.Objects.Type
+     */
         Type: {
+            /**
+             * Ball class
+             */
             Ball: class {
                 /**
                  * Ball/Bomb objecst to shoot towards Basket/Turban object
@@ -54,6 +65,7 @@ const GameController = {
                  * @param {number} rad Radius of object 
                  * @param {number} speedY Starting velocity on the Y-axis
                  * @param {number} speedX Starting velocity on the X-axis
+                 *  @memberof GameNamespace.Objects.Type
                  */
                 constructor(x, y, rad, speedY, speedX) {
                     //Ball dimensions
@@ -100,6 +112,9 @@ const GameController = {
                     };
                 }
             },
+            /**
+             * Kurv/Basket/Turban class
+             */
             Kurv: class {
                 /**
                  *  Basket/Turban object 
@@ -113,6 +128,7 @@ const GameController = {
                  * @param {number} containerHeight Container canvas height
                  * @param {number} containerWidth Container canvas width
                  * @param {*} bombAnimation Bomb p5 Animation to play upon collision
+                 *  @memberof GameNamespace.Objects.Type
                  */
                 constructor(xPoint, yPoint, width, height, speed, img, containerHeight, containerWidth, bombAnimation) {
 
@@ -145,6 +161,10 @@ const GameController = {
 
 
 
+                    /**
+                     * Runs object logic
+                     *
+                     */
                     this.Update = function () {
                         //Draw
                         rectMode(CORNER);
@@ -275,20 +295,24 @@ const GameController = {
         },
         /** 
          * Preconfigured objects
-         */
+     *  @memberof GameNamespace.Objects
+     *  @namespace GameNamespace.Objects.Presets
+     */
         Presets: {
             /**
              * Ball object devoid of initial directional velocity
-             *
-             * @returns Preconfigured ball object without directional velocity
+             * 
+             * @returns {GameNamespace.Objects.Type.Ball} Preconfigured ball object without directional velocity
+             *  @memberof GameNamespace.Objects.Presets
              */
             NewBall: function () {
-                return new GameController.Objects.Type.Ball(232, Math.round(Math.random() * 100) + 400, 32, 0, 0 * Math.random());
+                return new GameNamespace.Objects.Type.Ball(232, Math.round(Math.random() * 100) + 400, 32, 0, 0 * Math.random());
             },
         },
         /**
          *  Runs logic of game objects
-         *
+         * 
+         *  @memberof GameNamespace.Objects
          */
         UpdateAll: function () {
 
@@ -304,10 +328,10 @@ const GameController = {
                 balls[index].update();
 
                 //Out of bounds detection
-                if (GameController.Objects.IsOutOfBounds(balls[index])) {
+                if (GameNamespace.Objects.IsOutOfBounds(balls[index])) {
                     //Remove and create new ball --- REPLACE WITH DEATH EVENT
                     balls = balls.splice(index - 1, index);
-                    balls.push(GameController.Objects.NewBall());
+                    balls.push(GameNamespace.Objects.NewBall());
                 }
 
                 //If ball collides with turban
@@ -317,12 +341,12 @@ const GameController = {
                     //Enable hit/collision status on basket/turban
                     turban.hitStatus = true;
                     //Increment score counter
-                    GameController.Ui.Values.IncrementScore();
+                    GameNamespace.Ui.Values.IncrementScore();
                     //Remove ball
                     balls = balls.splice(index - 1, index);
                     //Create new ball after timed delay
                     setTimeout(function () {
-                        balls.push(GameController.Objects.Presets.NewBall());
+                        balls.push(GameNamespace.Objects.Presets.NewBall());
                     }, 750);
 
                 }
@@ -331,8 +355,9 @@ const GameController = {
         /**
          * Check whether object is out of bounds of the browser window
          *
-         * @param {GameController.Objects.Type.Ball} object Object to check whether is out of bounds
-         * @returns Boolean of whether object is out of bounds
+         * @param {GameNamespace.Objects.Type.Ball} object Object to check whether is out of bounds
+         * @returns {boolean} Boolean of whether object is out of bounds
+         *  @memberof GameNamespace.Objects
          */
         IsOutOfBounds: function (object) {
             //If object is out of bounds WEST || If object is out of bounds EAST
@@ -348,23 +373,28 @@ const GameController = {
     },
     /**
      * Functions for use within game Ui
+     *  @memberof GameNamespace
+     *  @namespace GameNamespace.Ui
      */
     Ui: {
         /**
          * Runs logic of game UI
-         *
+         * 
+         *  @memberof GameNamespace.Ui
          */
         UpdateAll: function () {
             //Draw score counter
-            GameController.Ui.Draw.ScoreCounter();
+            GameNamespace.Ui.Draw.ScoreCounter();
         },
         /**
          * Functions used to draw UI
+         *  @memberof GameNamespace.Ui
+         *  @namespace GameNamespace.Ui.Draw
          */
         Draw: {
             /**
              * Draws the score counter
-             *
+             *  @memberof GameNamespace.Ui.Draw
              */
             ScoreCounter: function () {
                 fill(255);
@@ -374,11 +404,14 @@ const GameController = {
         },
         /** 
          * Functions used to act upon values used by UI
+         *  @memberof GameNamespace.Ui
+         *  @namespace GameNamespace.Ui.Values
          */
         Values: {
             /**
              * Increments score counter
-             *
+             * 
+             *  @memberof GameNamespace.Ui.Values
              */
             IncrementScore: function () {
                 score++;

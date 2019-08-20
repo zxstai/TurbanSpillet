@@ -43,8 +43,8 @@ function setup() {
     createCanvas(windowWidth, windowHeight);
 
     //Object creation
-    balls = [GameController.Objects.Presets.NewBall()];
-    turban = new GameController.Objects.Type.Kurv(670, 100, turbanImg.width / 2, turbanImg.height / 2, 20, turbanImg, height, width, explosionAnim);
+    balls = [GameNamespace.Objects.Presets.NewBall()];
+    turban = new GameNamespace.Objects.Type.Kurv(670, 100, turbanImg.width / 2, turbanImg.height / 2, 20, turbanImg, height, width, explosionAnim);
 }
 //#endregion SETUP
 
@@ -63,9 +63,9 @@ function draw() {
     //Check and act upon actively pressed keys
     checkKeys();
     //Draw game and run all game logic
-    GameController.Objects.UpdateAll(turban, balls);
+    GameNamespace.Objects.UpdateAll(turban, balls);
     //Draw Ui and run Ui logic
-    GameController.Ui.UpdateAll();
+    GameNamespace.Ui.UpdateAll();
 }
 
 /**
@@ -76,7 +76,7 @@ function checkKeys() {
     if (activeKeys.length > 0) {
         if (keyIsPressed)
             //Pass actively pressed keys to ActOnPressedKeys function
-            GameController.Controls.ActOnPressedKeys(activeKeys, turban);
+            GameNamespace.Controls.ActOnPressedKeys(activeKeys, turban);
         else //Sanity check - Reset activeKeys if it contains keys, yet none are pressed
             activeKeys = [];
     }
