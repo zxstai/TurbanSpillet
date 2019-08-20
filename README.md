@@ -7,4 +7,5 @@ Udviklet af [M. Hansen](https://github.com/zxstai) & [Hampus](https://github.com
 Prøv https://zxstai.github.io/TurbanSpillet/
 
 
+**CONCEPT ART ONLY, NOT INGAME**
 ![ConceptArt](conceptart.png?raw=true "Concept Art")
