@@ -180,7 +180,7 @@ const GameController = {
         },
          Presets: {
             NewBall: function () {
-                return new GameController.Objects.Types.Ball(232, Math.round(Math.random() * 100) + 400, 32, 0, 0 * Math.random());
+                return new GameController.Objects.Type.Ball(232, Math.round(Math.random() * 100) + 400, 32, 0, 0 * Math.random());
             },
         },
         UpdateAll:  function () {
