@@ -6,6 +6,7 @@ var turban;
 var turbanImg;
 var explosionAnim;
 var balls;
+var backgroundIMG;
 
 
 //Controls
@@ -20,6 +21,7 @@ var miss = 0;
 
 //#region SETUP
 function preload() {
+    backgroundIMG = loadImage("assets/background.png");
     turbanImg = loadImage("assets/net.png");
     bomb = loadImage("assets/bomb.png"); //loader vores bombe der flyver
     explosionAnim = loadAnimation("assets/explosion/explosion1.png", "assets/explosion/explosion2.png");
@@ -29,6 +31,7 @@ function preload() {
 function setup() {
     //General setup
     createCanvas(windowWidth, windowHeight);
+
 
 
     //Object creation
@@ -42,7 +45,7 @@ function setup() {
 
 //#region LOOP
 function draw() {
-    background(0);
+    background(backgroundIMG, windowWidth, windowHeight);
     checkKeys();
     GameController.Objects.UpdateAll(turban, balls);
     drawSprites();
