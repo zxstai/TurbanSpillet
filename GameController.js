@@ -1,8 +1,20 @@
-const GameController = { //controlling the games functions.
+/**
+ * Namespace containing functions and methods used by the game
+ * @namespace GameController
+ */
+const GameController = {
+    /**
+     * Functions related to game controls
+     */
+    Controls: {
 
-    Controls: { //how you move your character around 
-
-        keyIsDown: function (keys, turban) { //If the key is pressed down, then move.
+        /**
+         * Calls methods depedent on incoming keystrokes
+         *
+         * @param {Array} keys String array of actively pressed keys
+         * @param {GameController.Objects.Type.Kurv} turban Active basket/turban object
+         */
+        ActOnPressedKeys: function (keys, turban) { //If the key is pressed down, then move.
             keys.forEach(key => { //Checking that if both A & W is pressed down, it will move west and north at the same time.
                 switch (key) {
                     case 'a':
@@ -24,11 +36,25 @@ const GameController = { //controlling the games functions.
 
         }
 
-    },    
-
-    Objects: { //the objects that gets shown
-         Type:  { 
-             Ball: class { //the ball that we have thrown into a class so we can find it again easily and call it later
+    },
+    /**
+     *  Functions and objects related to the playable parts of the game
+     */
+    Objects: {
+        /**
+         * Instantiable game objects
+         */
+        Type: {
+            Ball: class {
+                /**
+                 * Ball/Bomb objecst to shoot towards Basket/Turban object
+                 * 
+                 * @param {number} x Starting coordinate on the X-axis
+                 * @param {number} y Starting coordinate on the Y-axis
+                 * @param {number} rad Radius of object 
+                 * @param {number} speedY Starting velocity on the Y-axis
+                 * @param {number} speedX Starting velocity on the X-axis
+                 */
                 constructor(x, y, rad, speedY, speedX) {
                     //Ball dimensions
                     this.y = y;
@@ -41,14 +67,25 @@ const GameController = { //controlling the games functions.
                     //Variables
                     this.speedY = speedY;
                     this.speedX = speedX;
-                    
+
+                    /**
+                     * Draw object to canvas
+                     *
+                     */
                     this.show = function () {
                         //Draw
                         fill(255);
                         ellipseMode(CENTER)
                         ellipse(this.x, this.y, this.rad, this.rad);
                     };
+
+                    /**
+                     * Update object movement
+                     *
+                     */
                     this.update = function () {
+                        //Draw object
+                        this.show();
                         //Gravity
                         this.speedY += this.gravity;
                         //Movement
@@ -63,7 +100,20 @@ const GameController = { //controlling the games functions.
                     };
                 }
             },
-             Kurv: class {
+            Kurv: class {
+                /**
+                 *  Basket/Turban object 
+                 * 
+                 * @param {number} xPoint Starting coordinate on the X-axis
+                 * @param {number} yPoint Starting coordinate on the Y-axis
+                 * @param {number} width  Width of object
+                 * @param {number} height Height of object
+                 * @param {number} speed Max directional speed
+                 * @param {*} img Object image to draw 
+                 * @param {number} containerHeight Container canvas height
+                 * @param {number} containerWidth Container canvas width
+                 * @param {*} bombAnimation Bomb p5 Animation to play upon collision
+                 */
                 constructor(xPoint, yPoint, width, height, speed, img, containerHeight, containerWidth, bombAnimation) {
 
                     //Dimensions
@@ -98,76 +148,82 @@ const GameController = { //controlling the games functions.
                     this.Update = function () {
                         //Draw
                         rectMode(CORNER);
-                        //rect(this.x, this.y, this.w, this.h);
                         image(this.img, this.x, this.y, this.w, this.h);
 
+                        this.BorderCollisionCheck();
+                        this.Move();
 
-                        //Movement
-                        this.velX *= this.friction;
-                        this.x += this.velX;
-                        this.velY *= this.friction;
-                        this.y += this.velY;
-
-
+                        //If object has been hit
                         if (this.hitStatus) {
-
-                            //Reset status
+                            //Reset collision status
                             this.hitStatus = false;
 
-                            //Create sprite
-                            var newSprite = createSprite(this.hitCoords[0], this.hitCoords[1]).addAnimation(this.animationLabel, this.bombAnima);
-                            if (this.bombSprites.length == 0)
-                                this.bombSprites = [newSprite];
-                            else
-                                this.bombSprites.push(newSprite); //starter animation på 2 frames med et framerate på 10 sekunder
+                            this.PlayAnimation();
+                        };
 
 
-                            //Remove sprite
-                            setTimeout(function () {
-                                for (let index = 0; index < allSprites.length; index++) {
-                                    if (this.animationLabel = allSprites[index].getAnimationLabel()) {
-                                        allSprites[index].remove();
-                                        break;
-                                    }
+                    }
+                    /**
+                     * Plays bomb animation once
+                     *
+                     */
+                    this.PlayAnimation = function () {
+
+                        //Create bomb animation upon collision poin
+                        var newSprite = createSprite(this.hitCoords[0], this.hitCoords[1]).addAnimation(this.animationLabel, this.bombAnima);
+                        if (this.bombSprites.length == 0)
+                            this.bombSprites = [newSprite];
+                        else
+                            this.bombSprites.push(newSprite); //starter animation på 2 frames med et framerate på 10 sekunder
+
+                        //Delay action to remove animation after determined play length
+                        setTimeout(function () {
+                            for (let index = 0; index < allSprites.length; index++) {
+                                if (this.animationLabel = allSprites[index].getAnimationLabel()) {
+                                    allSprites[index].remove();
+                                    break;
                                 }
-                            }, this.animationPlayLength);
-                        }
+                            }
+                        }, this.animationPlayLength);
+                    }
 
-                    };
 
+                    /**
+                     * Moves object dependent on velocity and diminshes the velocity
+                     *
+                     */
+                    this.Move = function () {
 
-                    this.MoveNorth = function () {
+                        //Moves object along X-axis and diminishes X-axis velocity
+                        this.velX *= this.friction;
+                        this.x += this.velX;
 
-                        if (this.velY > -this.speed) this.velY--;
+                        //Moves object along Y-axis and diminishes Y-axis velocity
+                        this.velY *= this.friction;
+                        this.y += this.velY;
+                    }
 
-                        //Collision detection
+                    /**
+                     * Halts movement if object collides with container
+                     *
+                     */
+                    this.BorderCollisionCheck = function () {
+                        //Collision detection NORTH
                         if (this.y <= 0) {
                             this.y = 0;
                             this.velY = 0;
                         };
-                    }
-                    this.MoveSouth = function () {
-                        if (this.velY < this.speed) this.velY++;
-
-                        //Collision detection
+                        //Collision detection SOUTH
                         if (this.y > this.containerHeight - this.h) {
                             this.y = this.containerHeight - this.h;
                             this.velY = 0;
                         };
-                    }
-                    this.MoveWest = function () {
-                        if (this.velX > -this.speed) this.velX--;
-
-                        //Collision detection
+                        //Collision detection WEST
                         if (this.x < 0) {
                             this.x = 0;
                             this.velX = 0;
                         };
-                    }
-                    this.MoveEast = function () {
-                        if (this.velX < this.speed) this.velX++;
-
-                        //Collision detection
+                        //Collision detection EAST
                         if (this.x > this.containerWidth - this.w) {
                             this.x = this.containerWidth - this.w;
                             this.velX = 0;
@@ -175,40 +231,109 @@ const GameController = { //controlling the games functions.
                     }
 
 
+                    /**
+                     * Add negative velocity towards the Y-axis
+                     *
+                     */
+                    this.MoveNorth = function () {
+
+                        if (this.velY > -this.speed) this.velY--;
+                    }
+
+                    /**
+                     * Add positive velocity towards the Y-axis
+                     *
+                     */
+                    this.MoveSouth = function () {
+                        if (this.velY < this.speed) this.velY++;
+
+
+                    }
+
+                    /**
+                     * Add negative velocity towards the X-axis
+                     *
+                     */
+                    this.MoveWest = function () {
+                        if (this.velX > -this.speed) this.velX--;
+
+
+                    }
+                    /**
+                     * Add positive velocity towards the X-axis
+                     *
+                     */
+                    this.MoveEast = function () {
+                        if (this.velX < this.speed) this.velX++;
+
+
+                    }
+
+
                 }
             }
         },
-         Presets: {
+        /** 
+         * Preconfigured objects
+         */
+        Presets: {
+            /**
+             * Ball object devoid of initial directional velocity
+             *
+             * @returns Preconfigured ball object without directional velocity
+             */
             NewBall: function () {
                 return new GameController.Objects.Type.Ball(232, Math.round(Math.random() * 100) + 400, 32, 0, 0 * Math.random());
             },
         },
-        UpdateAll:  function () {
+        /**
+         *  Runs logic of game objects
+         *
+         */
+        UpdateAll: function () {
+
+            //Updates movement and draws turban on canvas
             turban.Update();
+
+            //Draws all sprites/animations
+            drawSprites();
+
+            //Iterates through all balls in the balls array and calls methods to draw, update movement, check for collision, remove and create balls.
             for (let index = 0; index < balls.length; index++) {
-                //Mechanics
-                balls[index].show();
+                //Update movement and draws ball on canvas
                 balls[index].update();
+
                 //Out of bounds detection
                 if (GameController.Objects.IsOutOfBounds(balls[index])) {
                     //Remove and create new ball --- REPLACE WITH DEATH EVENT
                     balls = balls.splice(index - 1, index);
                     balls.push(GameController.Objects.NewBall());
                 }
+
                 //If ball collides with turban
                 if (collideRectCircle(turban.x, turban.y, turban.w, turban.h, balls[index].x, balls[index].y, balls[index].rad)) {
-                    //Remove and create new ball --- REPLACE WITH DEATH EVENT
+                    //Update basket/turban object with ball collision point
                     turban.hitCoords = [balls[index].x, balls[index].y];
+                    //Enable hit/collision status on basket/turban
+                    turban.hitStatus = true;
+                    //Increment score counter
                     GameController.Ui.Values.IncrementScore();
+                    //Remove ball
                     balls = balls.splice(index - 1, index);
-                        //Create new ball
+                    //Create new ball after timed delay
                     setTimeout(function () {
                         balls.push(GameController.Objects.Presets.NewBall());
                     }, 750);
-                    
+
                 }
             }
         },
+        /**
+         * Check whether object is out of bounds of the browser window
+         *
+         * @param {GameController.Objects.Type.Ball} object Object to check whether is out of bounds
+         * @returns Boolean of whether object is out of bounds
+         */
         IsOutOfBounds: function (object) {
             //If object is out of bounds WEST || If object is out of bounds EAST
             if (object.x + object.rad / 2 < 0 || object.x - object.rad / 2 > width)
@@ -221,23 +346,42 @@ const GameController = { //controlling the games functions.
         },
 
     },
+    /**
+     * Functions for use within game Ui
+     */
     Ui: {
-        Objects:{},
+        /**
+         * Runs logic of game UI
+         *
+         */
         UpdateAll: function () {
-            //Score counter
+            //Draw score counter
             GameController.Ui.Draw.ScoreCounter();
         },
+        /**
+         * Functions used to draw UI
+         */
         Draw: {
-             ScoreCounter: function () {
+            /**
+             * Draws the score counter
+             *
+             */
+            ScoreCounter: function () {
                 fill(255);
                 text("Score: " + score, width - 80, 30);
 
             },
         },
+        /** 
+         * Functions used to act upon values used by UI
+         */
         Values: {
+            /**
+             * Increments score counter
+             *
+             */
             IncrementScore: function () {
                 score++;
-                turban.hitStatus = true;
 
             },
         },
