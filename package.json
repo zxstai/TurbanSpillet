@@ -1,0 +1,11 @@
+{
+    "name": "ep1",
+    "version": "1.0.0",
+    "description": "Turban spil",
+    "scripts": {
+      "document": "jsdoc jsdoc.json"
+    },
+    "devDependencies": {
+      "jsdoc": "^3.5.5"
+    }
+  }
