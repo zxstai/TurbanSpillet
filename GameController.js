@@ -1,8 +1,8 @@
-class GameController {
+const GameController = {
 
-    static Controls = class {
+    Controls: {
 
-        static keyIsDown = function (keys, turban) {
+        keyIsDown: function (keys, turban) {
             keys.forEach(key => {
                 switch (key) {
                     case 'a':
@@ -24,11 +24,11 @@ class GameController {
 
         }
 
-    }
+    },    
 
-    static Objects = class {
-        static Types = class {
-            static Ball = class {
+    Objects: {
+         Type:  { 
+             Ball: class {
                 constructor(x, y, rad, speedY, speedX) {
                     //Ball dimensions
                     this.y = y;
@@ -62,8 +62,8 @@ class GameController {
                         }
                     };
                 }
-            };
-            static Kurv = class {
+            },
+             Kurv: class {
                 constructor(xPoint, yPoint, width, height, speed, img, containerHeight, containerWidth, bombAnimation) {
 
                     //Dimensions
@@ -176,14 +176,14 @@ class GameController {
 
 
                 }
-            };
-        };
-        static Presets = class {
-            static NewBall = function () {
+            }
+        },
+         Presets: {
+            NewBall: function () {
                 return new GameController.Objects.Types.Ball(232, Math.round(Math.random() * 100) + 400, 32, 0, 0 * Math.random());
-            };
-        };
-        static UpdateAll = function () {
+            },
+        },
+        UpdateAll:  function () {
             turban.Update();
             for (let index = 0; index < balls.length; index++) {
                 //Mechanics
@@ -208,8 +208,8 @@ class GameController {
                     
                 }
             }
-        };
-        static IsOutOfBounds = function (object) {
+        },
+        IsOutOfBounds: function (object) {
             //If object is out of bounds WEST || If object is out of bounds EAST
             if (object.x + object.rad / 2 < 0 || object.x - object.rad / 2 > width)
                 return true;
@@ -218,28 +218,28 @@ class GameController {
                 return true;
             else
                 return false;
-        };
+        },
 
-    };
-    static Ui = class {
-        static Objects = class {};
-        static UpdateAll = function () {
+    },
+    Ui: {
+        Objects:{},
+        UpdateAll: function () {
             //Score counter
             GameController.Ui.Draw.ScoreCounter();
-        };
-        static Draw = class {
-            static ScoreCounter = function () {
+        },
+        Draw: {
+             ScoreCounter: function () {
                 fill(255);
                 text("Score: " + score, width - 80, 30);
 
-            };
-        };
-        static Values = class {
-            static IncrementScore = function () {
+            },
+        },
+        Values: {
+            IncrementScore: function () {
                 score++;
                 turban.hitStatus = true;
 
-            };
-        };
-    };
+            },
+        },
+    },
 }
