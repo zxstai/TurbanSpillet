@@ -1,9 +1,9 @@
-const GameController = {
+const GameController = { //controlling the games functions.
 
-    Controls: {
+    Controls: { //how you move your character around 
 
-        keyIsDown: function (keys, turban) {
-            keys.forEach(key => {
+        keyIsDown: function (keys, turban) { //If the key is pressed down, then move.
+            keys.forEach(key => { //Checking that if both A & W is pressed down, it will move west and north at the same time.
                 switch (key) {
                     case 'a':
                         turban.MoveWest();
@@ -26,9 +26,9 @@ const GameController = {
 
     },    
 
-    Objects: {
+    Objects: { //the objects that gets shown
          Type:  { 
-             Ball: class {
+             Ball: class { //the ball that we have thrown into a class so we can find it again easily and call it later
                 constructor(x, y, rad, speedY, speedX) {
                     //Ball dimensions
                     this.y = y;
@@ -213,7 +213,7 @@ const GameController = {
             //If object is out of bounds WEST || If object is out of bounds EAST
             if (object.x + object.rad / 2 < 0 || object.x - object.rad / 2 > width)
                 return true;
-            //If object is out of bounds NORTH || If object is out of bounds bSOUTH
+            //If object is out of bounds NORTH || If object is out of bounds SOUTH
             else if (object.y + object.rad / 2 < 0 || object.y - object.rad / 2 > height)
                 return true;
             else
