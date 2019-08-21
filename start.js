@@ -32,13 +32,10 @@ function setup()
 
     var mgr = new SceneManager();
 
-    turban = new GameNamespace.Objects.Type.Kurv(670, 100, turbanImg.width / 2, turbanImg.height / 2, 20, turbanImg, height, width, explosionAnim);
-
     //Ineject property 
     mgr.backgroundImg = backgroundImg; // inject bkImage property
     mgr.turbanImg = turbanImg; // inject bkImage property
     mgr.bomb = bomb; // inject bkImage property
-    mgr.turban = turban;
     mgr.wire();
     mgr.addScene( Game );
      

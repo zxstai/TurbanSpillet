@@ -15,23 +15,22 @@ const GameNamespace = {
          * Calls methods depedent on incoming keystrokes
          *
          * @param {Array} keys String array of actively pressed keys
-         * @param {GameNamespace.Objects.Type.Kurv} turban Active basket/turban object
          * @memberof GameNamespace.Controls
          */
-        ActOnPressedKeys: function (keys, turban) { //If the key is pressed down, then move.
+        ActOnPressedKeys: function (keys) { //If the key is pressed down, then move.
             keys.forEach(key => { //Checking that if both A & W is pressed down, it will move west and north at the same time.
                 switch (key) {
                     case 'a':
-                        turban.MoveWest();
+                        SceneCollection.findScene(Game).oScene.turban.MoveWest();
                         break;
                     case 's':
-                        turban.MoveSouth();
+                        SceneCollection.findScene(Game).oScene.turban.MoveSouth();
                         break;
                     case 'w':
-                        turban.MoveNorth();
+                        SceneCollection.findScene(Game).oScene.turban.MoveNorth();
                         break;
                     case 'd':
-                        turban.MoveEast();
+                        SceneCollection.findScene(Game).oScene.turban.MoveEast();
                         break;
                     default:
                         break;

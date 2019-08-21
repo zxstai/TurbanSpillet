@@ -32,7 +32,7 @@ this.draw = function(){
     //Check and act upon actively pressed keys
     this.checkKeys();
     //Draw game and run all game logic
-    GameNamespace.Objects.UpdateAll(turban, this.balls);
+    GameNamespace.Objects.UpdateAll(this.turban, this.balls);
     //Draw Ui and run Ui logic
     GameNamespace.Ui.UpdateAll();
 }
@@ -45,7 +45,7 @@ this.checkKeys = function(){
     if (this.activeKeys.length > 0) {
         if (keyIsPressed)
             //Pass actively pressed keys to ActOnPressedKeys function
-            GameNamespace.Controls.ActOnPressedKeys(this.activeKeys, this.turban);
+            GameNamespace.Controls.ActOnPressedKeys(this.activeKeys);
         else //Sanity check - Reset activeKeys if it contains keys, yet none are pressed
             this.activeKeys = [];
     }
