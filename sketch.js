@@ -30,7 +30,7 @@ function preload() {
     bomb = loadImage("assets/bomb.png");
     //Loads animation
     explosionAnim = loadAnimation("assets/explosion/explosion1.png", "assets/explosion/explosion2.png");
-    //Configures animation
+    //Configures the explosion animations update time.
     explosionAnim.frameDelay = 12;
 }
 
