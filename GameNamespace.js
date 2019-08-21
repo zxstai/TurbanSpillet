@@ -317,36 +317,36 @@ const GameNamespace = {
         UpdateAll: function () {
 
             //Updates movement and draws turban on canvas
-            turban.Update();
+            SceneCollection.findScene(Game).oScene.turban.Update();
 
             //Draws all sprites/animations
             drawSprites();
 
             //Iterates through all balls in the balls array and calls methods to draw, update movement, check for collision, remove and create balls.
-            for (let index = 0; index < balls.length; index++) {
+            for (let index = 0; index < SceneCollection.findScene(Game).oScene.balls.length; index++) {
                 //Update movement and draws ball on canvas
-                balls[index].update();
+                SceneCollection.findScene(Game).oScene.balls[index].update();
 
                 //Out of bounds detection
-                if (GameNamespace.Objects.IsOutOfBounds(balls[index])) {
+                if (GameNamespace.Objects.IsOutOfBounds(SceneCollection.findScene(Game).oScene.balls[index])) {
                     //Remove and create new ball --- REPLACE WITH DEATH EVENT
-                    balls = balls.splice(index - 1, index);
-                    balls.push(GameNamespace.Objects.NewBall());
+                    SceneCollection.findScene(Game).oScene.balls = SceneCollection.findScene(Game).oScene.balls.splice(index - 1, index);
+                    SceneCollection.findScene(Game).oScene.balls.push(GameNamespace.Objects.NewBall());
                 }
 
                 //If ball collides with turban
-                if (collideRectCircle(turban.x, turban.y, turban.w, turban.h, balls[index].x, balls[index].y, balls[index].rad)) {
+                if (collideRectCircle(SceneCollection.findScene(Game).oScene.turban.x, SceneCollection.findScene(Game).oScene.turban.y, SceneCollection.findScene(Game).oScene.turban.w, SceneCollection.findScene(Game).oScene.turban.h, SceneCollection.findScene(Game).oScene.balls[index].x, SceneCollection.findScene(Game).oScene.balls[index].y, SceneCollection.findScene(Game).oScene.balls[index].rad)) {
                     //Update basket/turban object with ball collision point
-                    turban.hitCoords = [balls[index].x, balls[index].y];
+                    SceneCollection.findScene(Game).oScene.turban.hitCoords = [SceneCollection.findScene(Game).oScene.balls[index].x, SceneCollection.findScene(Game).oScene.balls[index].y];
                     //Enable hit/collision status on basket/turban
-                    turban.hitStatus = true;
+                    SceneCollection.findScene(Game).oScene.turban.hitStatus = true;
                     //Increment score counter
                     GameNamespace.Ui.Values.IncrementScore();
                     //Remove ball
-                    balls = balls.splice(index - 1, index);
+                    SceneCollection.findScene(Game).oScene.balls = SceneCollection.findScene(Game).oScene.balls.splice(index - 1, index);
                     //Create new ball after timed delay
                     setTimeout(function () {
-                        balls.push(GameNamespace.Objects.Presets.NewBall());
+                        SceneCollection.findScene(Game).oScene.balls.push(GameNamespace.Objects.Presets.NewBall());
                     }, 750);
 
                 }
@@ -398,7 +398,7 @@ const GameNamespace = {
              */
             ScoreCounter: function () {
                 fill(255);
-                text("Score: " + score, width - 80, 30);
+                text("Score: " + SceneCollection.findScene(Game).oScene.score, width - 80, 30);
 
             },
         },
@@ -414,7 +414,7 @@ const GameNamespace = {
              *  @memberof GameNamespace.Ui.Values
              */
             IncrementScore: function () {
-                score++;
+                SceneCollection.findScene(Game).oScene.score++;
 
             },
         },
