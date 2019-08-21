@@ -1,12 +1,13 @@
-//#region VARIABLES
+function Game() {
+    
+// Preloaded assets
+var backgroundImg = this.sceneManager.backgroundImg();
+var turbanImg = this.sceneManager.turbanImg;
+var explosionAnim = this.sceneManager.explosionAnim;
 
 // Objects
-var turban;
-var turbanImg;
-var explosionAnim;
-var balls;
-var backgroundImg;
-
+var turban = new GameNamespace.Objects.Type.Kurv(670, 100, turbanImg.width / 2, turbanImg.height / 2, 20, turbanImg, height, width, explosionAnim);
+var balls = [GameNamespace.Objects.Presets.NewBall()];
 
 //Controls
 var activeKeys = [];
@@ -18,36 +19,6 @@ var miss = 0;
 
 //#endregion VARIABLES
 
-//#region SETUP
-/**
- * Loads assets before setup
- *
- */
-function preload() {
-    //Loads pictures
-    backgroundImg = loadImage("assets/background.png");
-    turbanImg = loadImage("assets/net.png");
-    bomb = loadImage("assets/bomb.png");
-    //Loads animation
-    explosionAnim = loadAnimation("assets/explosion/explosion1.png", "assets/explosion/explosion2.png");
-    //Configures animation
-    explosionAnim.frameDelay = 12;
-}
-
-/**
- * Creates canvas and initial objects
- *
- */
-function setup() {
-    //General setup
-    createCanvas(windowWidth, windowHeight);
-
-    //Object creation
-    balls = [GameNamespace.Objects.Presets.NewBall()];
-    turban = new GameNamespace.Objects.Type.Kurv(670, 100, turbanImg.width / 2, turbanImg.height / 2, 20, turbanImg, height, width, explosionAnim);
-}
-//#endregion SETUP
-
 
 
 
@@ -57,7 +28,7 @@ function setup() {
  * Main loop - Draws and runs all game logic
  *
  */
-function draw() {
+this.draw = function(){
     //Draw background image
     background(backgroundImg, windowWidth, windowHeight);
     //Check and act upon actively pressed keys
@@ -119,3 +90,6 @@ onkeyup = function (e) {
 }
 
 //#endregion EVENTS
+
+
+}
