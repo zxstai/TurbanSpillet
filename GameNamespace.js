@@ -32,6 +32,9 @@ const GameNamespace = {
                     case 'd':
                         SceneCollection.findScene(Game).oScene.turban.MoveEast();
                         break;
+                    case 'p':
+                        SceneCollection.showScene(GameMenu);
+                    break;
                     default:
                         break;
                 }

@@ -2,8 +2,16 @@ function GameMenu() {
     
 
     this.setup = function() {
-        background(startMenuImg, windowWidth, windowHeight);
         createButtons();
+    
+    }   
+
+    this.draw = function() {
+
+        background(startMenuImg, windowWidth, windowHeight);
+        if(document.getElementById("buttonContainer").style.visibility == "hidden")
+        document.getElementById("buttonContainer").style.visibility = "visible";
+
     }   
 
     function createButtons() {
@@ -12,6 +20,10 @@ function GameMenu() {
         newBtn.innerHTML = "Button"+index;
         switch (index) {
             case 0:
+                    newBtn.onclick = function(){
+                        SceneCollection.showScene(Game);
+                        document.getElementById("buttonContainer").style.visibility = "hidden";
+                    }
                     newBtn.innerHTML = "Singleplayer" 
                 break;
             case 1:
