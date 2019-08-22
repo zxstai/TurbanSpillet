@@ -7,7 +7,7 @@ this.balls = [GameNamespace.Objects.Presets.NewBall()];
 this.activeKeys = [];
 
 //Objects
-this.turban = new GameNamespace.Objects.Type.Kurv(670, 100, turbanImg.width / 2, turbanImg.height / 2, 20, turbanImg, height, width, explosionAnim);
+this.turban = new GameNamespace.Objects.Type.Kurv(670, 100, turbanImg.width / 2, turbanImg.height / 2, 20, turbanImg, windowHeight, windowWidth, explosionAnim);
 this.balls;
 
 // Øvrige

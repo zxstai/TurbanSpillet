@@ -228,7 +228,7 @@ const GameNamespace = {
                      */
                     this.BorderCollisionCheck = function () {
                         //Collision detection NORTH
-                        if (this.y <= 0) {
+                        if (this.y < 0) {
                             this.y = 0;
                             this.velY = 0;
                         };

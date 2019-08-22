@@ -9,7 +9,6 @@ var explosionAnim;
 /**
  * Global collection of scenes
  * 
- * @type {SceneManager}
  */
 var SceneCollection;
 
@@ -28,7 +27,7 @@ function preload() {
 
 function setup()
 {
-    createCanvas(backgroundImg.width, backgroundImg.height);
+    createCanvas(windowWidth, windowHeight);
 
     var mgr = new SceneManager();
 
@@ -36,11 +35,14 @@ function setup()
     mgr.backgroundImg = backgroundImg; // inject bkImage property
     mgr.turbanImg = turbanImg; // inject bkImage property
     mgr.bomb = bomb; // inject bkImage property
+
     mgr.wire();
+
+    
     mgr.addScene( Game );
      
     SceneCollection = mgr;
 
     SceneCollection.showNextScene();
-    //mgr.showScene( Game );
+
 }
