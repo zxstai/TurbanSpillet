@@ -38,8 +38,8 @@ function setup()
 
     mgr.wire();
 
-    
-    mgr.addScene( Game );
+
+    mgr.addScene( GameMenu );
      
     SceneCollection = mgr;
 

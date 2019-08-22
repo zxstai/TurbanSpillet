@@ -305,7 +305,7 @@ const GameNamespace = {
              *  @memberof GameNamespace.Objects.Presets
              */
             NewBall: function () {
-                return new GameNamespace.Objects.Type.Ball(232, Math.round(Math.random() * 100) + 400, 32,50, 50 * Math.random());
+                return new GameNamespace.Objects.Type.Ball(232, Math.round(Math.random() * 100) + 400, 128, -25, 32 * Math.random());
             },
         },
         /**
