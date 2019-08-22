@@ -14,6 +14,8 @@ var SceneCollection;
 
 function preload() {
     //Loads pictures
+    buttonImg = loadImage("assets/buttons.png");
+    startMenuImg = loadImage("assets/startscreen.png");
     backgroundImg = loadImage("assets/background.png");
     turbanImg = loadImage("assets/net.png");
     bomb = loadImage("assets/bomb.png");
@@ -27,7 +29,9 @@ function preload() {
 
 function setup()
 {
-    createCanvas(windowWidth, windowHeight);
+    
+    var canvas = createCanvas(windowWidth, windowHeight);
+    canvas.parent("canvasContainer");
 
     var mgr = new SceneManager();
 
@@ -39,7 +43,7 @@ function setup()
     mgr.wire();
 
 
-    mgr.addScene( GameMenu );
+    mgr.addScene( Game );
      
     SceneCollection = mgr;
 

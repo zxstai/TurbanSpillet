@@ -1,0 +1,25 @@
+button {
+    background: url(assets/buttons.png) center no-repeat;
+    background-size: 100% 100%;
+    padding: 2vh 5vw;
+    border-width:0;
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    margin-
+}
+
+#contentContainer {
+    position: relative;
+  }
+  #canvasContainer,
+  #buttonContainer {
+    position: absolute;
+  }
+  #buttonContainer {
+        position: absolute;
+        top: 46vh;
+        left: 18vw;
+        background:red;
+        z-index: 10;
+  }
