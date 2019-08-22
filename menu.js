@@ -28,6 +28,7 @@ function GameMenu() {
                 break;
                 
         }
+        document.onclick("Singleplayer")
         document.getElementById("buttonContainer").appendChild(newBtn);
         
     }

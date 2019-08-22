@@ -24,7 +24,8 @@ button {
         left: 18vw;
         z-index: 10;
   }
-#allah {
+#player,#audio {
 width:0px;
 height:0px;
+visibility: hidden;
 }
