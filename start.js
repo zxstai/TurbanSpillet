@@ -3,6 +3,7 @@ var backgroundImg;
 var turbanImg;
 var bomb;
 var explosionAnim;
+var explosionSound;
 //Preloaded objects
 
 
@@ -24,6 +25,9 @@ function preload() {
     explosionAnim = loadAnimation("assets/explosion/explosion1.png", "assets/explosion/explosion2.png");
     //Configures animation
     explosionAnim.frameDelay = 12;
+
+    //Loads explosion sound effect
+    explosionSound = loadSound("assets/explosion/explosion.mp3");
 }
 
 
@@ -39,6 +43,7 @@ function setup()
     mgr.backgroundImg = backgroundImg; // inject bkImage property
     mgr.turbanImg = turbanImg; // inject bkImage property
     mgr.bomb = bomb; // inject bkImage property
+    mgr.explosionSound = explosionSound;
 
     mgr.wire();
 

@@ -179,11 +179,15 @@ const GameNamespace = {
                         if (this.hitStatus) {
                             //Reset collision status
                             this.hitStatus = false;
-
+                            this.PlayExplosion();
                             this.PlayAnimation();
                         };
 
 
+                    }
+                    this.PlayExplosion = function () {
+                        SceneCollection.explosionSound.play();
+                        
                     }
                     /**
                      * Plays bomb animation once
