@@ -396,9 +396,11 @@ const GameNamespace = {
              *  @memberof GameNamespace.Ui.Draw
              */
             ScoreCounter: function () {
-                fill(255);
-                text("Score: " + SceneCollection.findScene(Game).oScene.score, width - 80, 30);
-
+                fill(51)//grayscaled color
+                rect(width - 202.5, 13, 185,50,20,20); //rectangle top right side for score counter
+                fill(0,255,255); //cyan color for text
+                textSize(40); //text size
+                text("Score: " + SceneCollection.findScene(Game).oScene.score, width - 200, 50); //Drawing 
             },
         },
         /** 
