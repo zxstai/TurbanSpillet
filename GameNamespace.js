@@ -305,7 +305,7 @@ const GameNamespace = {
              *  @memberof GameNamespace.Objects.Presets
              */
             NewBall: function () {
-                return new GameNamespace.Objects.Type.Ball(232, Math.round(Math.random() * 100) + 400, 32, 0, 0 * Math.random());
+                return new GameNamespace.Objects.Type.Ball(232, Math.round(Math.random() * 100) + 400, 32,50, 50 * Math.random());
             },
         },
         /**
@@ -330,7 +330,7 @@ const GameNamespace = {
                 if (GameNamespace.Objects.IsOutOfBounds(SceneCollection.findScene(Game).oScene.balls[index])) {
                     //Remove and create new ball --- REPLACE WITH DEATH EVENT
                     SceneCollection.findScene(Game).oScene.balls = SceneCollection.findScene(Game).oScene.balls.splice(index - 1, index);
-                    SceneCollection.findScene(Game).oScene.balls.push(GameNamespace.Objects.NewBall());
+                    SceneCollection.findScene(Game).oScene.balls.push(GameNamespace.Objects.Presets.NewBall());
                 }
 
                 //If ball collides with turban
