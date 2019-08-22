@@ -32,7 +32,7 @@ const GameNamespace = {
                     case 'd':
                         SceneCollection.findScene(Game).oScene.turban.MoveEast();
                         break;
-                    case 'p':
+                    case 'p': //when pressing P, the game will return the user to the Menu screen then further waits input from the user
                         SceneCollection.showScene(GameMenu);
                     break;
                     default:

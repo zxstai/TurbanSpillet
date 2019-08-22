@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Appelsiner i turbanen </title>
     <script src="libraries/p5.js" type="text/javascript"></script>
-
     <script src="libraries/p5.dom.js" type="text/javascript"></script>
     <script src="libraries/p5.sound.js" type="text/javascript"></script>
     <script src="libraries/p5.play.js" type="text/javascript"></script>
@@ -15,19 +14,19 @@
     <script src="game.js" type="text/javascript"></script>
     <script src="menu.js" type="text/javascript"></script>
     <script src="GameNamespace.js" type="text/javascript"></script>
+   
     <link rel="stylesheet" type="text/css" href="style.css">
-
 
     <style> body {padding: 0; margin: 0;} canvas {vertical-align: top;} </style>
   </head>
   <body>
-      <iframe src="assets/silence.mp3" allow="autoplay" hidden="true" id="audio"></iframe>
-      <audio id="player" autoplay loop>
-          <source src="assets/allah.mp3" type="audio/mp3">
+      <iframe src="assets/silence.mp3" allow="autoplay" hidden="true" id="audio"></iframe> <!--To bypass Chrome's autoplay policy (https://developers.google.com/web/updates/2017/09/autoplay-policy-changes), we have to play a 0.5 second empty sound effect to disable the policy for future autoplay medias.-->
+      <audio id="player" autoplay loop> <!--Autoplay the next audiofile, which is the background music that runs in a loop and autoplays after the first silence.mp3 file-->
+          <source src="assets/allah.mp3" type="audio/mp3"> 
       </audio>
-    <div id="contentContainer">
-      <div id="canvasContainer"></div>
-      <div id="buttonContainer"></div>
+    <div id="contentContainer"> <!--All content that is gonna be visible on the webpage-->
+      <div id="canvasContainer"></div> <!--javascript Canvas related stuff-->
+      <div id="buttonContainer"></div> <!--Overlay buttons to accept input from users-->
   </div>
   </body>
 </html>
