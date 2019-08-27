@@ -307,7 +307,7 @@ const GameNamespace = {
             /**
              * Ball object devoid of initial directional velocity
              * 
-             * @returns {GameNamespace.Objects.Type.Ball} Preconfigured ball object without directional velocity
+             *  @returns {GameNamespace.Objects.Type.Ball} Preconfigured ball object without directional velocity
              *  @memberof GameNamespace.Objects.Presets
              */
             NewBall: function () {
