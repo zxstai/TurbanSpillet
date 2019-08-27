@@ -30,7 +30,16 @@ function GameMenu() {
                     newBtn.innerHTML = "Multiplayer" //renames the button from Button+index also known as Button1 to Multiplayer
                 break;
             case 2:
-                    newBtn.innerHTML = "Options" //renames the button from Button+index also known as Button2 to Options
+                    newBtn.onclick = function(){ //if index[0], also known as Singleplayer button, then go start Singleplayer gamemode (currently the only gamemode)
+                        var audio = document.getElementById('player');
+                        if (audio.paused) {
+                            audio.play();
+                        }else{
+                            audio.pause();
+                            audio.currentTime = 0
+                        }
+                    }
+                    newBtn.innerHTML = "Music Mute" //renames the button from Button+index also known as Button2 to Options
                 break;
             case 3:
                     newBtn.innerHTML = "Quit" //renames the button from Button+index also known as Button3 to Quit

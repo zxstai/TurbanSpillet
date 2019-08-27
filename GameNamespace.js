@@ -88,9 +88,8 @@ const GameNamespace = {
                      */
                     this.show = function () {
                         //Draw
-                        fill(255);
-                        ellipseMode(CENTER)
-                        ellipse(this.x, this.y, this.rad, this.rad);
+                        imageMode(CENTER);
+                        image(SceneCollection.bomb, this.x ,this.y, this.rad, this.rad);
                     };
 
                     /**
