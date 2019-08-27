@@ -3,12 +3,12 @@ function GameMenu() {
 
     this.setup = function() {
         createButtons(); //drawing the buttons on screen
-    
+        SceneCollection.backgroundAnim.play();
     }   
 
     this.draw = function() {
 
-        background(startMenuImg, windowWidth, windowHeight); //draws the background, including the logo at the browsers window width and height.
+
         if(document.getElementById("buttonContainer").style.visibility == "hidden") //checks if the buttons are hidden, if so then draw the buttons when GameMenu is called from GameNamspace.js's ActOnPressedKeys function (key "p" currently)
         document.getElementById("buttonContainer").style.visibility = "visible"; //sets the buttons to be visible if they are hidden
 
