@@ -30,7 +30,16 @@ this.sockets;
 this.setup = function(){
     console.log("lmao");
     if(multiplayer)
-    console.log("skrrrt");
+    {
+        if(playerIsHost)
+        networkCreate();
+        else
+        networkConnect();
+
+
+
+    }
+    
 }
 
 this.draw = function(){
@@ -94,22 +103,23 @@ onkeyup = function (e) {
         }
 }
 
+
 //#endregion EVENTS
 
 
 
 function networkConnect() {
     confirm("Please type the pin code")
-        var pin = promt("Pin: ")
-        socket = ElineSocket.connect(pin);
+        var pin = prompt("Pin: ")
+        this.socket = ElineSocket.connect(pin);
     }
     
     function networkCreate(){
-        socket = ElineSocket.create();
+        this.socket = ElineSocket.create();
     }
     
     function networkRead(){
-        socket.onMessage(handleMessage);
+        this.socket.onMessage(handleMessage);
     }
     
     
