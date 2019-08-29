@@ -41,14 +41,18 @@ const gameNamespace = {
                         break;
                     case 'p': //when pressing P, the game will return the user to the Menu screen then further waits input from the user
                         SceneCollection.showScene(GameMenu);
+
+                        if(multiplayer)
                         socket.close();
-                        SceneCollection.pop();
+
+                       // SceneCollection.scenes.pop();
                     break;
                     case ' ':
                         if(multiplayer && !playerIsHost){
                             console.log("boink");
                         socket.sendMessage("launchBomb");
-                    console.log("gadoink");}
+                        console.log("gadoink");}
+
 
                     break;
                     default:
@@ -351,7 +355,7 @@ const gameNamespace = {
          * 
          *  @memberof gameNamespace.Objects
          */
-        UpdateAll: function () {
+        UpdateAll: function () {//TODO: Separate functions for clarification and readability
 
             //Updates turban movement
             SceneCollection.findScene(Game).oScene.turban.Update();
@@ -364,8 +368,9 @@ const gameNamespace = {
                 //Out of bounds detection
                 if (gameNamespace.Objects.IsOutOfBounds(SceneCollection.findScene(Game).oScene.balls[index])) {
                     //Remove and create new ball --- REPLACE WITH DEATH EVENT
-                    SceneCollection.findScene(Game).oScene.balls = SceneCollection.findScene(Game).oScene.balls.splice(index - 1, index);
                     SceneCollection.findScene(Game).oScene.balls.push(gameNamespace.Objects.Presets.NewBall());
+                    console.log(SceneCollection.findScene(Game).oScene.balls.splice(index, 1));
+                    break;
                 }
 
                 //If ball collides with turban
@@ -376,8 +381,10 @@ const gameNamespace = {
                     SceneCollection.findScene(Game).oScene.turban.hitStatus = true;
                     //Increment score counter
                     gameNamespace.Ui.Values.IncrementScore();
+                    
                     //Remove ball
-                    SceneCollection.findScene(Game).oScene.balls = SceneCollection.findScene(Game).oScene.balls.splice(index - 1, index);
+                    SceneCollection.findScene(Game).oScene.balls.splice(index, 1);
+                    
                     //Create new ball after timed delay
                     setTimeout(function () {
                         SceneCollection.findScene(Game).oScene.balls.push(gameNamespace.Objects.Presets.NewBall());
