@@ -18,7 +18,7 @@ this.miss = 0;
 //#endregion VARIABLES
 
 this.sockets;
-this.multiplayer;
+this.multiplayer = multiplayer;
 this.playerIsHost;
 
 
@@ -31,6 +31,8 @@ this.playerIsHost;
 
 this.setup = function(){
     console.log("lmao");
+    if(multiplayer)
+    console.log("skrrrt");
 }
 
 this.draw = function(){

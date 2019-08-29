@@ -4,6 +4,7 @@ var turbanImg;
 var bomb;
 var explosionAnim;
 var explosionSound;
+var multiplayer;
 //Preloaded objects
 
 
