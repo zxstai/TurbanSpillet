@@ -115,7 +115,7 @@ function networkConnect() {
                 console.log('Unknown message', msg);
         }
     }
-    socket.close();
+    //socket.close();
     
 
 
