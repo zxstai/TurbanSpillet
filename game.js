@@ -30,11 +30,13 @@ this.socket;
 this.setup = function(){
     if(multiplayer)
     {
+
         if(playerIsHost)
         networkCreate();
         else
         networkConnect();
 
+        socket.onMessage(handleMessage);
 
 
     }
@@ -125,6 +127,7 @@ function networkConnect() {
     
     
     function handleMessage(msg) {
+        console.log(msg);
         switch (msg.type) {
             case 'shootNew':
                 SceneCollection.findScene(Game).oScene.balls.push(gameNamespace.Objects.Presets.NewBall());
