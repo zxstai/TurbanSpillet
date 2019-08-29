@@ -27,9 +27,13 @@ function GameMenu() {
                     newBtn.innerHTML = "Singleplayer" //renames the button from Button+index also known as Button0 to Singleplayer
                 break;
             case 1:
-                    newBtn.innerHTML = "Multiplayer" //renames the button from Button+index also known as Button1 to Multiplaye
+                    newBtn.innerHTML = "Host" //renames the button from Button+index also known as Button1 to Multiplaye
+
                     break;
             case 2:
+                    newBtn.innerHTML = "Connect" //renames the button from Button+index also known as Button2 to Options
+                break;
+            case 3:
                     newBtn.onclick = function(){ //if index[0], also known as Singleplayer button, then go start Singleplayer gamemode (currently the only gamemode)
                         var audio = document.getElementById('player');
                         if (audio.paused) {
@@ -39,9 +43,10 @@ function GameMenu() {
                             audio.currentTime = 0
                         }
                     }
-                    newBtn.innerHTML = "Music Mute" //renames the button from Button+index also known as Button2 to Options
+                newBtn.innerHTML = "Mute Music"
                 break;
-            case 3:
+
+            case 4:
                     newBtn.innerHTML = "Quit" //renames the button from Button+index also known as Button3 to Quit
                 break;
             default:
