@@ -1,13 +1,13 @@
 function Game() {
     
 // Objects
-this.balls = [GameNamespace.Objects.Presets.NewBall()];
+this.balls = [gameNamespace.Objects.Presets.NewBall()];
 
 //Controls
 this.activeKeys = [];
 
 //Objects
-this.turban = new GameNamespace.Objects.Type.Kurv(670, 100, turbanImg.width / 2, turbanImg.height / 2, 20, turbanImg, windowHeight, windowWidth, explosionAnim);
+this.turban = new gameNamespace.Objects.Type.Kurv(670, 100, turbanImg.width / 2, turbanImg.height / 2, 20, turbanImg, windowHeight, windowWidth, explosionAnim);
 this.balls;
 
 // Øvrige
@@ -32,9 +32,9 @@ this.draw = function(){
     //Check and act upon actively pressed keys
     this.checkKeys();
     //Draw game and run all game logic
-    GameNamespace.Objects.UpdateAll(this.turban, this.balls);
+    gameNamespace.Objects.UpdateAll(this.turban, this.balls);
     //Draw Ui and run Ui logic
-    GameNamespace.Ui.UpdateAll();
+    gameNamespace.Ui.UpdateAll();
 }
 
 /**
@@ -45,7 +45,7 @@ this.checkKeys = function(){
     if (this.activeKeys.length > 0) {
         if (keyIsPressed)
             //Pass actively pressed keys to ActOnPressedKeys function
-            GameNamespace.Controls.ActOnPressedKeys(this.activeKeys);
+            gameNamespace.Controls.ActOnPressedKeys(this.activeKeys);
         else //Sanity check - Reset activeKeys if it contains keys, yet none are pressed
             this.activeKeys = [];
     }

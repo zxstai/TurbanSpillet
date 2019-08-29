@@ -1,12 +1,12 @@
 /**
  * Namespace containing functions and methods used by the game
- * @namespace GameNamespace
+ * @namespace gameNamespace
  */
-const GameNamespace = {
+const gameNamespace = {
     /**
      * Functions related to game controls
-     *  @memberof GameNamespace
-     *  @namespace GameNamespace.Controls
+     *  @memberof gameNamespace
+     *  @namespace gameNamespace.Controls
      * 
      */
     Controls: {
@@ -15,7 +15,7 @@ const GameNamespace = {
          * Calls methods depedent on incoming keystrokes
          *
          * @param {Array} keys String array of actively pressed keys
-         * @memberof GameNamespace.Controls
+         * @memberof gameNamespace.Controls
          */
         ActOnPressedKeys: function (keys) { //If the key is pressed down, then move.
             keys.forEach(key => { //Checking that if both A & W is pressed down, it will move west and north at the same time.
@@ -45,14 +45,14 @@ const GameNamespace = {
     },
     /**
      *  Functions and objects related to the playable parts of the game
-     *  @memberof GameNamespace
-     *  @namespace GameNamespace.Objects
+     *  @memberof gameNamespace
+     *  @namespace gameNamespace.Objects
      */
     Objects: {
         /**
          * Instantiable game objects
-     *  @memberof GameNamespace.Objects
-     *  @namespace GameNamespace.Objects.Type
+     *  @memberof gameNamespace.Objects
+     *  @namespace gameNamespace.Objects.Type
      */
         Type: {
             /**
@@ -67,7 +67,7 @@ const GameNamespace = {
                  * @param {number} rad Radius of object 
                  * @param {number} speedY Starting velocity on the Y-axis
                  * @param {number} speedX Starting velocity on the X-axis
-                 *  @memberof GameNamespace.Objects.Type
+                 *  @memberof gameNamespace.Objects.Type
                  */
                 constructor(x, y, rad, speedY, speedX) {
                     //Ball dimensions
@@ -129,7 +129,7 @@ const GameNamespace = {
                  * @param {number} containerHeight Container canvas height
                  * @param {number} containerWidth Container canvas width
                  * @param {*} bombAnimation Bomb p5 Animation to play upon collision
-                 *  @memberof GameNamespace.Objects.Type
+                 *  @memberof gameNamespace.Objects.Type
                  */
                 constructor(xPoint, yPoint, width, height, speed, img, containerHeight, containerWidth, bombAnimation) {
 
@@ -300,24 +300,24 @@ const GameNamespace = {
         },
         /** 
          * Preconfigured objects
-     *  @memberof GameNamespace.Objects
-     *  @namespace GameNamespace.Objects.Presets
+     *  @memberof gameNamespace.Objects
+     *  @namespace gameNamespace.Objects.Presets
      */
         Presets: {
             /**
              * Ball object devoid of initial directional velocity
              * 
-             *  @returns {GameNamespace.Objects.Type.Ball} Preconfigured ball object without directional velocity
-             *  @memberof GameNamespace.Objects.Presets
+             *  @returns {gameNamespace.Objects.Type.Ball} Preconfigured ball object without directional velocity
+             *  @memberof gameNamespace.Objects.Presets
              */
             NewBall: function () {
-                return new GameNamespace.Objects.Type.Ball(232, Math.round(Math.random() * 100) + 400, 128, -25, 32 * Math.random());
+                return new gameNamespace.Objects.Type.Ball(232, Math.round(Math.random() * 100) + 400, 128, -25, 32 * Math.random());
             },
         },
         /**
          *  Runs logic of game objects
          * 
-         *  @memberof GameNamespace.Objects
+         *  @memberof gameNamespace.Objects
          */
         UpdateAll: function () {
 
@@ -333,10 +333,10 @@ const GameNamespace = {
                 SceneCollection.findScene(Game).oScene.balls[index].update();
 
                 //Out of bounds detection
-                if (GameNamespace.Objects.IsOutOfBounds(SceneCollection.findScene(Game).oScene.balls[index])) {
+                if (gameNamespace.Objects.IsOutOfBounds(SceneCollection.findScene(Game).oScene.balls[index])) {
                     //Remove and create new ball --- REPLACE WITH DEATH EVENT
                     SceneCollection.findScene(Game).oScene.balls = SceneCollection.findScene(Game).oScene.balls.splice(index - 1, index);
-                    SceneCollection.findScene(Game).oScene.balls.push(GameNamespace.Objects.Presets.NewBall());
+                    SceneCollection.findScene(Game).oScene.balls.push(gameNamespace.Objects.Presets.NewBall());
                 }
 
                 //If ball collides with turban
@@ -346,12 +346,12 @@ const GameNamespace = {
                     //Enable hit/collision status on basket/turban
                     SceneCollection.findScene(Game).oScene.turban.hitStatus = true;
                     //Increment score counter
-                    GameNamespace.Ui.Values.IncrementScore();
+                    gameNamespace.Ui.Values.IncrementScore();
                     //Remove ball
                     SceneCollection.findScene(Game).oScene.balls = SceneCollection.findScene(Game).oScene.balls.splice(index - 1, index);
                     //Create new ball after timed delay
                     setTimeout(function () {
-                        SceneCollection.findScene(Game).oScene.balls.push(GameNamespace.Objects.Presets.NewBall());
+                        SceneCollection.findScene(Game).oScene.balls.push(gameNamespace.Objects.Presets.NewBall());
                     }, 750);
 
                 }
@@ -360,9 +360,9 @@ const GameNamespace = {
         /**
          * Check whether object is out of bounds of the browser window
          *
-         * @param {GameNamespace.Objects.Type.Ball} object Object to check whether is out of bounds
+         * @param {gameNamespace.Objects.Type.Ball} object Object to check whether is out of bounds
          * @returns {boolean} Boolean of whether object is out of bounds
-         *  @memberof GameNamespace.Objects
+         *  @memberof gameNamespace.Objects
          */
         IsOutOfBounds: function (object) {
             //If object is out of bounds WEST || If object is out of bounds EAST
@@ -378,28 +378,28 @@ const GameNamespace = {
     },
     /**
      * Functions for use within game Ui
-     *  @memberof GameNamespace
-     *  @namespace GameNamespace.Ui
+     *  @memberof gameNamespace
+     *  @namespace gameNamespace.Ui
      */
     Ui: {
         /**
          * Runs logic of game UI
          * 
-         *  @memberof GameNamespace.Ui
+         *  @memberof gameNamespace.Ui
          */
         UpdateAll: function () {
             //Draw score counter
-            GameNamespace.Ui.Draw.ScoreCounter();
+            gameNamespace.Ui.Draw.ScoreCounter();
         },
         /**
          * Functions used to draw UI
-         *  @memberof GameNamespace.Ui
-         *  @namespace GameNamespace.Ui.Draw
+         *  @memberof gameNamespace.Ui
+         *  @namespace gameNamespace.Ui.Draw
          */
         Draw: {
             /**
              * Draws the score counter
-             *  @memberof GameNamespace.Ui.Draw
+             *  @memberof gameNamespace.Ui.Draw
              */
             ScoreCounter: function () {
                 fill(51)//grayscaled color
@@ -411,14 +411,14 @@ const GameNamespace = {
         },
         /** 
          * Functions used to act upon values used by UI
-         *  @memberof GameNamespace.Ui
-         *  @namespace GameNamespace.Ui.Values
+         *  @memberof gameNamespace.Ui
+         *  @namespace gameNamespace.Ui.Values
          */
         Values: {
             /**
              * Increments score counter
              * 
-             *  @memberof GameNamespace.Ui.Values
+             *  @memberof gameNamespace.Ui.Values
              */
             IncrementScore: function () {
                 SceneCollection.findScene(Game).oScene.score++;
