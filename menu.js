@@ -21,6 +21,7 @@ function GameMenu() {
         switch (index) {
             case 0:
                     newBtn.onclick = function(){ //if index[0], also known as Singleplayer button, then go start Singleplayer gamemode (currently the only gamemode)
+                        multiplayer = false;
                         SceneCollection.showScene(Game); //Shows the game scene (singleplayer mode only atm)
                         document.getElementById("buttonContainer").style.visibility = "hidden"; //hides the buttons from the screen so they don't overlap on the game screen.
                     }
@@ -28,10 +29,21 @@ function GameMenu() {
                 break;
             case 1:
                     newBtn.innerHTML = "Host" //renames the button from Button+index also known as Button1 to Multiplaye
-
+                    newBtn.onclick = function(){ //if index[0], also known as Singleplayer button, then go start Singleplayer gamemode (currently the only gamemode)
+                        multiplayer = true;
+                        playerIsHost = true;
+                        SceneCollection.showScene(Game); //Shows the game scene (singleplayer mode only atm)
+                        document.getElementById("buttonContainer").style.visibility = "hidden"; //hides the buttons from the screen so they don't overlap on the game screen.
+                    }
                     break;
             case 2:
                     newBtn.innerHTML = "Connect" //renames the button from Button+index also known as Button2 to Options
+                    newBtn.onclick = function(){ //if index[0], also known as Singleplayer button, then go start Singleplayer gamemode (currently the only gamemode)
+                        multiplayer = true;
+                        playerIsHost = false;
+                        SceneCollection.showScene(Game); //Shows the game scene (singleplayer mode only atm)
+                        document.getElementById("buttonContainer").style.visibility = "hidden"; //hides the buttons from the screen so they don't overlap on the game screen.
+                    }
                 break;
             case 3:
                     newBtn.onclick = function(){ //if index[0], also known as Singleplayer button, then go start Singleplayer gamemode (currently the only gamemode)

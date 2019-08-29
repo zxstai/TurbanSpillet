@@ -16,10 +16,8 @@ this.miss = 0;
 
 
 //#endregion VARIABLES
+this.socket;
 
-this.sockets;
-this.multiplayer = multiplayer;
-this.playerIsHost;
 
 
 //#region LOOP
@@ -30,12 +28,24 @@ this.playerIsHost;
  */
 
 this.setup = function(){
-    console.log("lmao");
     if(multiplayer)
-    console.log("skrrrt");
+    {
+        if(playerIsHost)
+        networkCreate();
+        else
+        networkConnect();
+
+
+
+    }
+    
 }
 
 this.draw = function(){
+
+    console.log(socket.id);
+
+
     //Draw background image
     background(backgroundImg, windowWidth, windowHeight);
     //Check and act upon actively pressed keys
@@ -96,13 +106,14 @@ onkeyup = function (e) {
         }
 }
 
+
 //#endregion EVENTS
 
 
 
 function networkConnect() {
     confirm("Please type the pin code")
-        var pin = promt("Pin: ")
+        var pin = prompt("Pin: ")
         socket = ElineSocket.connect(pin);
     }
     
