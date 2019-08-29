@@ -176,10 +176,8 @@ function networkConnect() {
           console.log(error);
       }
       else{
-          console.log(msg);
           switch (msg) {
               case 'launchBomb':
-                  console.log("i was here");
                 SceneCollection.findScene(Game).oScene.balls.push(gameNamespace.Objects.Presets.NewBall());
                   break;
           
