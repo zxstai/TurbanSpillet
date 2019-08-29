@@ -43,8 +43,6 @@ this.setup = function(){
 
 this.draw = function(){
 
-    console.log(socket.id);
-
 
     //Draw background image
     background(backgroundImg, windowWidth, windowHeight);

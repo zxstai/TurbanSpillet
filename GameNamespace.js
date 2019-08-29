@@ -52,7 +52,7 @@ const gameNamespace = {
                         SceneCollection.showScene(GameMenu);
                     break;
                     case ' ':
-                        if(!multiplayer)
+                        if(multiplayer)
                         SceneCollection.findScene(Game).oScene.balls.push(gameNamespace.Objects.Presets.NewBall());
                     break;
                     default:
@@ -410,6 +410,8 @@ const gameNamespace = {
         UpdateAll: function () {
             //Draw score counter
             gameNamespace.Ui.Draw.ScoreCounter();
+            if(multiplayer)
+            gameNamespace.Ui.Draw.ServerID();
         },
         /**
          * Functions used to draw UI
@@ -417,7 +419,7 @@ const gameNamespace = {
          *  @namespace gameNamespace.Ui.Draw
          */
         Draw: {
-            /**
+            /**r
              * Draws the score counter
              *  @memberof gameNamespace.Ui.Draw
              */
@@ -427,6 +429,11 @@ const gameNamespace = {
                 fill(0,255,255); //cyan color for text
                 textSize(40); //text size
                 text("Score: " + SceneCollection.findScene(Game).oScene.score, width - 200, 50); //Drawing 
+            },
+            ServerID: function() {
+                fill(0,255,255)
+                textAlign(CENTER);
+                text("Server pin: " + socket.id, width/2, height/15);
             },
         },
         /** 
