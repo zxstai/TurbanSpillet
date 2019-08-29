@@ -17,7 +17,7 @@ this.miss = 0;
 
 //#endregion VARIABLES
 this.socket;
-
+this.launchCooldown
 
 
 //#region LOOP
@@ -66,6 +66,7 @@ this.draw = function(){
         let socketMsg = JSON.stringify(new gameNamespace.Objects.Type.MultiplayerData(this.turban,this.balls,this.score));
         socket.sendMessage(socketMsg);
     }
+
 
 }
 

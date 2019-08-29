@@ -21,40 +21,55 @@ const gameNamespace = {
             keys.forEach(key => { //Checking that if both A & W is pressed down, it will move west and north at the same time.
                 switch (key) {
                     case 'a':
-                        if(!multiplayer || multiplayer && playerIsHost)
-                        SceneCollection.findScene(Game).oScene.turban.MoveWest();
+                        if (!multiplayer || multiplayer && playerIsHost)
+                            SceneCollection.findScene(Game).oScene.turban.MoveWest();
 
                         break;
                     case 's':
-                            if(!multiplayer || multiplayer && playerIsHost)
-                        SceneCollection.findScene(Game).oScene.turban.MoveSouth();
+                        if (!multiplayer || multiplayer && playerIsHost)
+                            SceneCollection.findScene(Game).oScene.turban.MoveSouth();
                         break;
                     case 'w':
-                            if(!multiplayer || multiplayer && playerIsHost)
+                        if (!multiplayer || multiplayer && playerIsHost)
 
-                        SceneCollection.findScene(Game).oScene.turban.MoveNorth();
+                            SceneCollection.findScene(Game).oScene.turban.MoveNorth();
                         break;
                     case 'd':
-                            if(!multiplayer || multiplayer && playerIsHost)
+                        if (!multiplayer || multiplayer && playerIsHost)
 
-                        SceneCollection.findScene(Game).oScene.turban.MoveEast();
+                            SceneCollection.findScene(Game).oScene.turban.MoveEast();
                         break;
                     case 'p': //when pressing P, the game will return the user to the Menu screen then further waits input from the user
                         SceneCollection.showScene(GameMenu);
 
-                        if(multiplayer)
-                        socket.close();
+                        if (multiplayer)
+                            socket.close();
 
-                       // SceneCollection.scenes.pop();
-                    break;
+                        // SceneCollection.scenes.pop();
+                        break;
                     case ' ':
-                        if(multiplayer && !playerIsHost){
-                            console.log("boink");
-                        socket.sendMessage("launchBomb");
-                        console.log("gadoink");}
+                        //If this is multiplayer and the user is not the host
+                        if (multiplayer && !playerIsHost) {
+
+                            //If the bomb launcher is not on cooldown
+                            if (!SceneCollection.findScene(Game).oScene.launchCooldown) {
+                                //Send message to host and have it generate a new bomb object
+                                socket.sendMessage("launchBomb");
+                                //Enable cooldown
+                                SceneCollection.findScene(Game).oScene.launchCooldown = true;
+                                setTimeout(function () {
+                                    SceneCollection.findScene(Game).oScene.launchCooldown = false;
+                                }, 500);
+
+                                console.log("Bomb fired!");
+                            }
+                            else
+                            console.log("Bomb launcher is on cooldown!");
+
+                        }
 
 
-                    break;
+                        break;
                     default:
                         break;
                 }
@@ -71,9 +86,9 @@ const gameNamespace = {
     Objects: {
         /**
          * Instantiable game objects
-     *  @memberof gameNamespace.Objects
-     *  @namespace gameNamespace.Objects.Type
-     */
+         *  @memberof gameNamespace.Objects
+         *  @namespace gameNamespace.Objects.Type
+         */
         Type: {
             /**
              * Ball class
@@ -109,7 +124,7 @@ const gameNamespace = {
                     this.show = function () {
                         //Draw
                         imageMode(CENTER);
-                        image(SceneCollection.bomb, this.x ,this.y, this.rad, this.rad);
+                        image(SceneCollection.bomb, this.x, this.y, this.rad, this.rad);
                     };
 
                     /**
@@ -185,7 +200,7 @@ const gameNamespace = {
                      *
                      */
 
-                    this.Draw = function(){
+                    this.Draw = function () {
                         //Draw
                         rectMode(CORNER);
                         image(this.img, this.x, this.y, this.w, this.h);
@@ -210,7 +225,7 @@ const gameNamespace = {
 
                     this.PlayExplosion = function () {
                         SceneCollection.explosionSound.play();
-                        
+
                     }
                     /**
                      * Plays bomb animation once
@@ -326,7 +341,7 @@ const gameNamespace = {
              */
             MultiplayerData: class {
                 constructor(turban, balls, score) {
-                    
+
                     this.turban = turban;
                     this.balls = balls;
                     this.score = score;
@@ -336,9 +351,9 @@ const gameNamespace = {
         },
         /** 
          * Preconfigured objects
-     *  @memberof gameNamespace.Objects
-     *  @namespace gameNamespace.Objects.Presets
-     */
+         *  @memberof gameNamespace.Objects
+         *  @namespace gameNamespace.Objects.Presets
+         */
         Presets: {
             /**
              * Ball object devoid of initial directional velocity
@@ -355,7 +370,7 @@ const gameNamespace = {
          * 
          *  @memberof gameNamespace.Objects
          */
-        UpdateAll: function () {//TODO: Separate functions for clarification and readability
+        UpdateAll: function () { //TODO: Separate functions for clarification and readability
 
             //Updates turban movement
             SceneCollection.findScene(Game).oScene.turban.Update();
@@ -369,7 +384,7 @@ const gameNamespace = {
                 if (gameNamespace.Objects.IsOutOfBounds(SceneCollection.findScene(Game).oScene.balls[index])) {
                     //Remove and create new ball --- REPLACE WITH DEATH EVENT
                     SceneCollection.findScene(Game).oScene.balls.push(gameNamespace.Objects.Presets.NewBall());
-                    console.log(SceneCollection.findScene(Game).oScene.balls.splice(index, 1));
+                    SceneCollection.findScene(Game).oScene.balls.splice(index, 1);
                     break;
                 }
 
@@ -381,11 +396,12 @@ const gameNamespace = {
                     SceneCollection.findScene(Game).oScene.turban.hitStatus = true;
                     //Increment score counter
                     gameNamespace.Ui.Values.IncrementScore();
-                    
+
                     //Remove ball
                     SceneCollection.findScene(Game).oScene.balls.splice(index, 1);
-                    
-                    //Create new ball after timed delay
+
+                    //Create new ball after timed delay, if this isn't multiplayer
+                    if(!multiplayer)
                     setTimeout(function () {
                         SceneCollection.findScene(Game).oScene.balls.push(gameNamespace.Objects.Presets.NewBall());
                     }, 750);
@@ -448,8 +464,8 @@ const gameNamespace = {
         UpdateAll: function () {
             //Draw score counter
             gameNamespace.Ui.Draw.ScoreCounter();
-            if(multiplayer)
-            gameNamespace.Ui.Draw.ServerID();
+            if (multiplayer)
+                gameNamespace.Ui.Draw.ServerID();
         },
         /**
          * Functions used to draw UI
@@ -462,16 +478,16 @@ const gameNamespace = {
              *  @memberof gameNamespace.Ui.Draw
              */
             ScoreCounter: function () {
-                fill(51)//grayscaled color
-                rect(width - 202.5, 13, 185,50,20,20); //rectangle top right side for score counter
-                fill(0,255,255); //cyan color for text
+                fill(51) //grayscaled color
+                rect(width - 202.5, 13, 185, 50, 20, 20); //rectangle top right side for score counter
+                fill(0, 255, 255); //cyan color for text
                 textSize(40); //text size
                 text("Score: " + SceneCollection.findScene(Game).oScene.score, width - 200, 50); //Drawing 
             },
-            ServerID: function() {
-                fill(0,255,255)
+            ServerID: function () {
+                fill(0, 255, 255)
                 textAlign(CENTER);
-                text("Server pin: " + socket.id, width/2, height/15);
+                text("Server pin: " + socket.id, width / 2, height / 15);
             },
         },
         /** 
