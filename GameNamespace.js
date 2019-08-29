@@ -17,11 +17,16 @@ const gameNamespace = {
          * @param {Array} keys String array of actively pressed keys
          * @memberof gameNamespace.Controls
          */
-        ActOnPressedKeys: function (keys) { //If the key is pressed down, then move.
+        ActOnPressedKeys: function (keys, multiplayer, playerIsHost) { //If the key is pressed down, then move.
             keys.forEach(key => { //Checking that if both A & W is pressed down, it will move west and north at the same time.
                 switch (key) {
                     case 'a':
+                        if(!multiplayer)
                         SceneCollection.findScene(Game).oScene.turban.MoveWest();
+                        else
+                        if(playerIsHost)
+                        socket.sendMessage(SceneCollection.findScene(Game).oScene.turban.MoveWest());                        
+
                         break;
                     case 's':
                         SceneCollection.findScene(Game).oScene.turban.MoveSouth();
