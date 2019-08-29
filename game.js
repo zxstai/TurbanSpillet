@@ -30,14 +30,13 @@ this.socket;
 this.setup = function(){
     if(multiplayer)
     {
-
         if(playerIsHost)
         networkCreate();
         else
         networkConnect();
 
         socket.onMessage(handleMessage);
-
+        console.log(socket.id);
 
     }
     
@@ -50,10 +49,24 @@ this.draw = function(){
     background(backgroundImg, windowWidth, windowHeight);
     //Check and act upon actively pressed keys
     this.checkKeys();
-    //Draw game and run all game logic
-    gameNamespace.Objects.UpdateAll(this.turban, this.balls);
-    //Draw Ui and run Ui logic
+
+    //Draw game objects
+    gameNamespace.Objects.DrawAll();
+    gameNamespace.Objects.UpdateAll();
+
+    //Insure that this is not being run as a connected client
+    if (!multiplayer || multiplayer && playerIsHost) {
+        //Run game object logic
+    }
+
     gameNamespace.Ui.UpdateAll();
+
+
+    if(multiplayer && playerIsHost){
+        let socketMsg = JSON.stringify(new gameNamespace.Objects.Type.MultiplayerData(this.turban,this.balls,this.score));
+        socket.sendMessage(socketMsg);
+    }
+
 }
 
 /**
@@ -127,14 +140,54 @@ function networkConnect() {
     
     
     function handleMessage(msg) {
-        console.log(msg);
-        switch (msg.type) {
-            case 'shootNew':
+
+     if(!playerIsHost)
+      try {
+          incomingData = JSON.parse(msg);
+
+
+          //TODO: Change received variables without specifying properties
+
+          SceneCollection.findScene(Game).oScene.turban.x = incomingData.turban.x;
+          SceneCollection.findScene(Game).oScene.turban.y = incomingData.turban.y;
+          SceneCollection.findScene(Game).oScene.turban.w = incomingData.turban.w;
+          SceneCollection.findScene(Game).oScene.turban.h = incomingData.turban.h;
+          SceneCollection.findScene(Game).oScene.turban.hitStatus = incomingData.turban.hitStatus;
+          SceneCollection.findScene(Game).oScene.turban.hitCoords = incomingData.turban.hitCoords;
+          SceneCollection.findScene(Game).oScene.turban.bombSprites = incomingData.turban.bombSprites;
+         // SceneCollection.findScene(Game).oScene.turban.bombAnima = incomingData.turban.bombAnima;
+
+
+         let newArrayOfBalls = [];
+         for (let index = 0; index < incomingData.balls.length; index++) {
+            newArrayOfBalls.push(new gameNamespace.Objects.Type.Ball(
+                incomingData.balls[index].x,
+                incomingData.balls[index].y,
+                incomingData.balls[index].rad,
+                incomingData.balls[index].speedY,
+                incomingData.balls[index].speedX));            
+         }
+        SceneCollection.findScene(Game).oScene.balls = newArrayOfBalls;
+
+
+         SceneCollection.findScene(Game).oScene.score = incomingData.score;
+        } catch (error) {
+          console.log(error);
+      }
+      else{
+          console.log(msg);
+          switch (msg) {
+              case 'launchBomb':
+                  console.log("i was here");
                 SceneCollection.findScene(Game).oScene.balls.push(gameNamespace.Objects.Presets.NewBall());
-                break;
-            default:
-                console.log('Unknown message', msg);
-        }
+                  break;
+          
+              default:
+                  break;
+          }
+
+      }
+        
     }
     //socket.close();
     

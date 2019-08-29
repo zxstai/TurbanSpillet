@@ -17,43 +17,39 @@ const gameNamespace = {
          * @param {Array} keys String array of actively pressed keys
          * @memberof gameNamespace.Controls
          */
-        ActOnPressedKeys: function (keys, multiplayer, playerIsHost) { //If the key is pressed down, then move.
+        ActOnPressedKeys: function (keys) { //If the key is pressed down, then move.
             keys.forEach(key => { //Checking that if both A & W is pressed down, it will move west and north at the same time.
                 switch (key) {
                     case 'a':
-                        if(!multiplayer)
+                        if(!multiplayer || multiplayer && playerIsHost)
                         SceneCollection.findScene(Game).oScene.turban.MoveWest();
-                        else
-                        if(playerIsHost)
-                        socket.sendMessage(SceneCollection.findScene(Game).oScene.turban.MoveWest());                        
+
                         break;
                     case 's':
-                        if(!multiplayer)
+                            if(!multiplayer || multiplayer && playerIsHost)
                         SceneCollection.findScene(Game).oScene.turban.MoveSouth();
-                        else
-                        if(playerIsHost)
-                        socket.sendMessage(SceneCollection.findScene(Game).oScene.turban.MoveSouth());   
                         break;
                     case 'w':
-                        if(!multiplayer)
+                            if(!multiplayer || multiplayer && playerIsHost)
+
                         SceneCollection.findScene(Game).oScene.turban.MoveNorth();
-                        else
-                        if(playerIsHost)
-                        socket.sendMessage(SceneCollection.findScene(Game).oScene.turban.North());
                         break;
                     case 'd':
-                        if(!multiplayer)
+                            if(!multiplayer || multiplayer && playerIsHost)
+
                         SceneCollection.findScene(Game).oScene.turban.MoveEast();
-                        else
-                        if(playerIsHost)
-                        socket.sendMessage(SceneCollection.findScene(Game).oScene.turban.MoveEast());
                         break;
                     case 'p': //when pressing P, the game will return the user to the Menu screen then further waits input from the user
                         SceneCollection.showScene(GameMenu);
+                        socket.close();
+                        SceneCollection.pop();
                     break;
                     case ' ':
-                        if(multiplayer)
-                        SceneCollection.findScene(Game).oScene.balls.push(gameNamespace.Objects.Presets.NewBall());
+                        if(multiplayer && !playerIsHost){
+                            console.log("boink");
+                        socket.sendMessage("launchBomb");
+                    console.log("gadoink");}
+
                     break;
                     default:
                         break;
@@ -117,8 +113,6 @@ const gameNamespace = {
                      *
                      */
                     this.update = function () {
-                        //Draw object
-                        this.show();
                         //Gravity
                         this.speedY += this.gravity;
                         //Movement
@@ -186,13 +180,11 @@ const gameNamespace = {
                      * Runs object logic
                      *
                      */
-                    this.Update = function () {
+
+                    this.Draw = function(){
                         //Draw
                         rectMode(CORNER);
                         image(this.img, this.x, this.y, this.w, this.h);
-
-                        this.BorderCollisionCheck();
-                        this.Move();
 
                         //If object has been hit
                         if (this.hitStatus) {
@@ -202,8 +194,16 @@ const gameNamespace = {
                             this.PlayAnimation();
                         };
 
+                    }
+
+                    this.Update = function () {
+                        this.BorderCollisionCheck();
+                        this.Move();
+
+
 
                     }
+
                     this.PlayExplosion = function () {
                         SceneCollection.explosionSound.play();
                         
@@ -316,6 +316,18 @@ const gameNamespace = {
 
 
                 }
+            },
+            /**
+             *  Multiplayer data to send to connected player from host
+             */
+            MultiplayerData: class {
+                constructor(turban, balls, score) {
+                    
+                    this.turban = turban;
+                    this.balls = balls;
+                    this.score = score;
+
+                }
             }
         },
         /** 
@@ -341,11 +353,8 @@ const gameNamespace = {
          */
         UpdateAll: function () {
 
-            //Updates movement and draws turban on canvas
+            //Updates turban movement
             SceneCollection.findScene(Game).oScene.turban.Update();
-
-            //Draws all sprites/animations
-            drawSprites();
 
             //Iterates through all balls in the balls array and calls methods to draw, update movement, check for collision, remove and create balls.
             for (let index = 0; index < SceneCollection.findScene(Game).oScene.balls.length; index++) {
@@ -377,6 +386,28 @@ const gameNamespace = {
                 }
             }
         },
+        /**
+         *  Draws of game objects
+         * 
+         *  @memberof gameNamespace.Objects
+         */
+        DrawAll: function () {
+            //Draws turban on canvas
+
+            SceneCollection.findScene(Game).oScene.turban.Draw();
+
+            //Draws all sprites/animations
+            drawSprites();
+
+            //Draw all balls
+            for (let index = 0; index < SceneCollection.findScene(Game).oScene.balls.length; index++) {
+                SceneCollection.findScene(Game).oScene.balls[index].show();
+
+            }
+
+
+        },
+
         /**
          * Check whether object is out of bounds of the browser window
          *
