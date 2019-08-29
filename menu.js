@@ -27,8 +27,8 @@ function GameMenu() {
                     newBtn.innerHTML = "Singleplayer" //renames the button from Button+index also known as Button0 to Singleplayer
                 break;
             case 1:
-                    newBtn.innerHTML = "Multiplayer" //renames the button from Button+index also known as Button1 to Multiplayer
-                break;
+                    newBtn.innerHTML = "Multiplayer" //renames the button from Button+index also known as Button1 to Multiplaye
+                    break;
             case 2:
                     newBtn.onclick = function(){ //if index[0], also known as Singleplayer button, then go start Singleplayer gamemode (currently the only gamemode)
                         var audio = document.getElementById('player');

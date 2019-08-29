@@ -84,7 +84,8 @@ onkeyup = function (e) {
         if (e.key == SceneCollection.findScene(Game).oScene.activeKeys[index].toLowerCase())
             //Removes key from array
             SceneCollection.findScene(Game).oScene.activeKeys.splice([index], 1);
-    }
+        }
+        console.log(e);
 }
 
 //#endregion EVENTS

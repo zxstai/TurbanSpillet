@@ -35,6 +35,10 @@ const gameNamespace = {
                     case 'p': //when pressing P, the game will return the user to the Menu screen then further waits input from the user
                         SceneCollection.showScene(GameMenu);
                     break;
+                    case ' ':
+                        SceneCollection.findScene(Game).oScene.balls.push(gameNamespace.Objects.Presets.NewBall());
+                        console.log(" ");
+                    break;
                     default:
                         break;
                 }

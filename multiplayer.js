@@ -16,10 +16,11 @@ function networkRead(){
     socket.onMessage(handleMessage);
 }
 
+
 function handleMessage(msg) {
     switch (msg.type) {
-        case "":
-            shootNew(msg.y);
+        case 'shootNew':
+            SceneCollection.findScene(Game).oScene.balls.push(gameNamespace.Objects.Presets.NewBall());
             break;
         default:
             console.log('Unknown message', msg);
