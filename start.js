@@ -5,6 +5,7 @@ var bomb;
 var explosionAnim;
 var explosionSound;
 var multiplayer;
+var multiplayerPin;
 var playerIsHost;
 //Preloaded objects
 
