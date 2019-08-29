@@ -16,10 +16,8 @@ this.miss = 0;
 
 
 //#endregion VARIABLES
-
 this.sockets;
-this.multiplayer = multiplayer;
-this.playerIsHost;
+
 
 
 //#region LOOP
