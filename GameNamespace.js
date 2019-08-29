@@ -26,23 +26,34 @@ const gameNamespace = {
                         else
                         if(playerIsHost)
                         socket.sendMessage(SceneCollection.findScene(Game).oScene.turban.MoveWest());                        
-
                         break;
                     case 's':
+                        if(!multiplayer)
                         SceneCollection.findScene(Game).oScene.turban.MoveSouth();
+                        else
+                        if(playerIsHost)
+                        socket.sendMessage(SceneCollection.findScene(Game).oScene.turban.MoveSouth());   
                         break;
                     case 'w':
+                        if(!multiplayer)
                         SceneCollection.findScene(Game).oScene.turban.MoveNorth();
+                        else
+                        if(playerIsHost)
+                        socket.sendMessage(SceneCollection.findScene(Game).oScene.turban.North());
                         break;
                     case 'd':
+                        if(!multiplayer)
                         SceneCollection.findScene(Game).oScene.turban.MoveEast();
+                        else
+                        if(playerIsHost)
+                        socket.sendMessage(SceneCollection.findScene(Game).oScene.turban.MoveEast());
                         break;
                     case 'p': //when pressing P, the game will return the user to the Menu screen then further waits input from the user
                         SceneCollection.showScene(GameMenu);
                     break;
                     case ' ':
+                        if(!multiplayer)
                         SceneCollection.findScene(Game).oScene.balls.push(gameNamespace.Objects.Presets.NewBall());
-                        console.log(" ");
                     break;
                     default:
                         break;
