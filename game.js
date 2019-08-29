@@ -17,7 +17,9 @@ this.miss = 0;
 
 //#endregion VARIABLES
 
-
+this.sockets;
+this.multiplayer = multiplayer;
+this.playerIsHost;
 
 
 //#region LOOP
@@ -26,6 +28,13 @@ this.miss = 0;
  * Main loop - Draws and runs all game logic
  *
  */
+
+this.setup = function(){
+    console.log("lmao");
+    if(multiplayer)
+    console.log("skrrrt");
+}
+
 this.draw = function(){
     //Draw background image
     background(backgroundImg, windowWidth, windowHeight);
