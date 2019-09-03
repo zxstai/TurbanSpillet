@@ -1,36 +1,44 @@
 button {
-    background: url(assets/buttons.png) center no-repeat;
-    background-size: 100% 100%;
-    padding: 2vh 5vw;
-    border-width:0;
-    font-size: 20px;
-    display: block;
-    width:100%;
-    margin:10px 0;
+  background: url(assets/buttons.png) center no-repeat;
+  background-size: 100% 100%;
+  padding: 2vh 5vw;
+  border-width: 0;
+  font-size: 20px;
+  display: block;
+  width: 100%;
+  margin: 10px 0;
 
 }
-button:hover{
+
+button:hover {
   color: rgba(255, 255, 255, 1);
   box-shadow: 0 0px 10px rgba(3, 175, 243, 0.4);
 }
-button:focus {outline:0;}
+
+button:focus {
+  outline: 0;
+}
 
 
 #contentContainer {
-    position: relative;
-  }
-  #canvasContainer,
-  #buttonContainer {
-    position: absolute;
-  }
-  #buttonContainer {
-        position: absolute;
-        top: 46vh;
-        left: 18vw;
-        z-index: 10;
-  }
-#player,#audio {
-width:0px;
-height:0px;
-visibility: hidden;
+  position: relative;
+}
+
+#canvasContainer,
+#buttonContainer {
+  position: absolute;
+}
+
+#buttonContainer {
+  position: absolute;
+  top: 46vh;
+  left: 18vw;
+  z-index: 10;
+}
+
+#player,
+#audio {
+  width: 0px;
+  height: 0px;
+  visibility: hidden;
 }

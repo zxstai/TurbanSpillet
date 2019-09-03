@@ -34,9 +34,8 @@ function preload() {
 }
 
 
-function setup()
-{
-    
+function setup() {
+
     var canvas = createCanvas(windowWidth, windowHeight);
     canvas.parent("canvasContainer");
 
@@ -51,12 +50,10 @@ function setup()
     mgr.wire();
 
 
-    mgr.addScene( GameMenu );
-     
+    mgr.addScene(GameMenu);
+
     SceneCollection = mgr;
 
     SceneCollection.showNextScene();
 
 }
-
-

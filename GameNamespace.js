@@ -62,9 +62,8 @@ const gameNamespace = {
                                 }, 500);
 
                                 console.log("Bomb fired!");
-                            }
-                            else
-                            console.log("Bomb launcher is on cooldown!");
+                            } else
+                                console.log("Bomb launcher is on cooldown!");
 
                         }
 
@@ -401,10 +400,10 @@ const gameNamespace = {
                     SceneCollection.findScene(Game).oScene.balls.splice(index, 1);
 
                     //Create new ball after timed delay, if this isn't multiplayer
-                    if(!multiplayer)
-                    setTimeout(function () {
-                        SceneCollection.findScene(Game).oScene.balls.push(gameNamespace.Objects.Presets.NewBall());
-                    }, 750);
+                    if (!multiplayer)
+                        setTimeout(function () {
+                            SceneCollection.findScene(Game).oScene.balls.push(gameNamespace.Objects.Presets.NewBall());
+                        }, 750);
 
                 }
             }
