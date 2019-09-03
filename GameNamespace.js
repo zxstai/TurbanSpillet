@@ -339,11 +339,12 @@ const gameNamespace = {
              *  Multiplayer data to send to connected player from host
              */
             MultiplayerData: class {
-                constructor(turban, balls, score) {
+                constructor(turban, balls, score, timeLeft) {
 
                     this.turban = turban;
                     this.balls = balls;
                     this.score = score;
+                    this.timeLeft = timeLeft;
 
                 }
             }
@@ -464,8 +465,10 @@ const gameNamespace = {
             //Draw score counter
             gameNamespace.Ui.Draw.ScoreCounter();
             if (multiplayer)
-                gameNamespace.Ui.Draw.ServerID();
-        },
+{                gameNamespace.Ui.Draw.ServerID();
+                gameNamespace.Ui.Draw.TimeLeft();
+
+}        },
         /**
          * Functions used to draw UI
          *  @memberof gameNamespace.Ui
@@ -481,13 +484,21 @@ const gameNamespace = {
                 rect(width - 202.5, 13, 185, 50, 20, 20); //rectangle top right side for score counter
                 fill(0, 255, 255); //cyan color for text
                 textSize(40); //text size
-                text("Score: " + SceneCollection.findScene(Game).oScene.score, width - 200, 50); //Drawing 
+                text("Hits: " + SceneCollection.findScene(Game).oScene.score, width - 200, 50); //Drawing 
+            },
+            TimeLeft: function () {
+                fill(51) //grayscaled color
+                rect(width - 202.5, 100, 185, 50, 20, 20); //rectangle top right side for score counter
+                fill(0, 255, 255); //cyan color for text
+                textSize(40); //text size
+                text("Time: " + SceneCollection.findScene(Game).oScene.timeLeft, width - 120, 140); //Drawing 
             },
             ServerID: function () {
                 fill(0, 255, 255)
                 textAlign(CENTER);
                 text("Server pin: " + socket.id, width / 2, height / 15);
             },
+
         },
         /** 
          * Functions used to act upon values used by UI
